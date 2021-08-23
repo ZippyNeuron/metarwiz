@@ -3,8 +3,16 @@ This simple class library can be used to parse and visualise METAR reports.
 
 Example Usage
 ```
-string metar = @"METAR EGLC 220350Z AUTO 30007KT 4100 RA BKN009/// OVC042/// //////CB 17/16 Q1015 RERA"
+  {
+      Metarwiz metarwiz = Metarwiz.Parse(metar);
 
-Metarviz m = Metarwiz.Parse(metar);
+      MwLocation location = m.Get<MwLocation>().FirstOrDefault();
+          Console.WriteLine(location.ICAO);
+
+      IEnumerable<MwCloud> clouds = m.Get<MwCloud>();
+      foreach(MwCloud cloud in clouds)
+      {
+          Console.WriteLine($"{cloud.Cloud} at {cloud.AboveGroundLevel}");
+      }
+  }
 ```
-
