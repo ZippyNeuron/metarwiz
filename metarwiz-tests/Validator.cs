@@ -13,6 +13,7 @@ namespace metarwiz.tests
         /// <param name="metar">The full METAR report</param>
         [TestMethod]
         [DataRow(@"METAR EGLC 212035Z AUTO VRB05KT 250V320 R24R/M1200D BKN012 -VCSN +RA -TSRA VCFG M10/02 Q1012 RESHSN 7649//93=")]
+        [DataRow(@"METAR EGLC 212035Z AUTO VRB05KT 250V320 R24R/M1200D BKN012 -VCSN +RA -TSRA VCFG M10/02 Q1012 RESHSN 0949//93=")]
         [DataRow(@"METAR EGLC 221850Z AUTO 29005KT 9999 NCD 19/16 Q1022")]
         [DataRow(@"METAR EGLC 212320Z AUTO 24007KT 9999 SCT034 BKN046 17/15 Q1015")]
         [DataRow(@"METAR EGLC 212350Z AUTO 23005KT 9999 FEW037 SCT046 17/15 Q1015")]
@@ -28,6 +29,10 @@ namespace metarwiz.tests
         [DataRow(@"METAR EGLC 221520Z AUTO 30008KT 280V340 9999 FEW045/// //////TCU 21/15 Q1020")]
         [DataRow(@"METAR EGLC 221650Z AUTO 28005KT 250V010 9999 -RA FEW033/// SCT043/// //////CB 18/16 Q1021 RERA")]
         [DataRow(@"METAR KOAK 221153Z 24005KT 10SM OVC013 16/12 A2983")]
+        [DataRow(@"METAR")]
+        [DataRow(@"METAR=")]
+        [DataRow(@"METAR RMK=")]
+        [DataRow(@"METAR RMK")]
 
         public void MetarValidationICAO(string metar)
         {
@@ -57,6 +62,10 @@ namespace metarwiz.tests
         [DataRow(@"METAR KOAK 230453Z 32007KT 10SM FEW010 16/12 A2984 RMK AO2 SLP105 T01560122")]
         [DataRow(@"METAR KOAK 230553Z 35006KT 10SM FEW010 15/12 A2984 RMK AO2 SLP106 T01500122 10206 20150 51013")]
         [DataRow(@"METAR KLAX 232153Z 25012KT 10SM FEW012 FEW030 23/16 A2987 RMK AO2 SLP114 T02280156=")]
+        [DataRow(@"METAR")]
+        [DataRow(@"METAR=")]
+        [DataRow(@"METAR RMK=")]
+        [DataRow(@"METAR RMK")]
         public void MetarValidationNA(string metar)
         {
             /* arrange */
@@ -65,12 +74,32 @@ namespace metarwiz.tests
             /* act */
             m = Metarwiz.Parse(metar);
 
-
             /* assert */
             Console.WriteLine(m.Metar.ToString(false));
             Console.WriteLine(m.ToString());
 
             Assert.AreEqual(m.Metar.ToString(), m.ToString());
+        }
+
+        /// <summary>
+        /// Metar Validation - Ensure exceptions are thrown when an invalid metar is supplied
+        /// </summary>
+        /// <param name="metar">The full METAR report</param>
+        [TestMethod]
+        [DataRow(@"")]
+        [DataRow(@"MATER")]
+        [DataRow(@"RMK")]
+        [DataRow(@"=")]
+        [DataRow(null)]
+        public void MetarValidationExceptions(string metar)
+        {
+            /* arrange */
+
+            /* act */
+            Action action = () => { Metarwiz.Parse(metar); };
+
+            /* assert */
+            Assert.ThrowsException<Exception>(action);
         }
     }
 }
