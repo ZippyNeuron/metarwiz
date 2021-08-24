@@ -15,7 +15,7 @@ namespace ZippyNeuron.Metarwiz
 
         private Metarwiz(string metar)
         {
-            _metarInfo = new MetarInfo(metar);
+            _metarInfo = new(metar);
             _metarItems = ParseParts(_metarInfo.Metar);
         }
 
