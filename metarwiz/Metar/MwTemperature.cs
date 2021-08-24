@@ -30,10 +30,10 @@ namespace ZippyNeuron.Metarwiz.Metar
         {
             return String.Concat(
                 _tempSign,
-                String.Format("{0:00}", _temperature),
+                String.Format("{0:00}", Math.Abs(Celsius)),
                 @"/",
                 _dewPointSign,
-                String.Format("{0:00}", _dewPoint)
+                String.Format("{0:00}", Math.Abs(DewPoint))
             );
         }
     }

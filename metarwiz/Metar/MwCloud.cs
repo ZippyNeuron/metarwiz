@@ -14,7 +14,7 @@ namespace ZippyNeuron.Metarwiz.Metar
         public MwCloud(int position, string value) : base(position, value, Pattern)
         {
             _ = int.TryParse(Groups["ALTITUDE"].Value, out _altitude);
-            _ = Enum.TryParse<CloudType>(Groups["CLOUD"].Value, out _cloudType);
+            _ = Enum.TryParse(Groups["CLOUD"].Value, out _cloudType);
             _descriptor = Groups["DESCRIPTOR"].Value;
         }
 
@@ -27,7 +27,6 @@ namespace ZippyNeuron.Metarwiz.Metar
             string clouds = String
                 .Join("|", Enum.GetNames<CloudType>());
 
-            //return $@"^(?<CLOUD>{clouds})(?<ALTITUDE>\d*)(?<DESCRIPTOR>[A-Z]+|\/\/\/|)?$";
             return $@"^(?<CLOUD>\/\/\/|{clouds})(?<ALTITUDE>\d*|\/\/\/)(?<DESCRIPTOR>[A-Z]+|\/\/\/|)?$";
         }
 
@@ -40,7 +39,7 @@ namespace ZippyNeuron.Metarwiz.Metar
             string alt = (Cloud == CloudType.Unspecified) ? "///" : String.Format("{0:000}", _altitude);
 
             return String.Concat(
-                (Cloud != CloudType.Unspecified) ? Enum.GetName<CloudType>(Cloud) : @"///",
+                (Cloud != CloudType.Unspecified) ? Enum.GetName(Cloud) : @"///",
                 (Cloud != CloudType.NCD) ? alt : String.Empty,
                 _descriptor
             ); ;
