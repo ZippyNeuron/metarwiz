@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "metarwiz", "metarwiz\metarwiz.csproj", "{BA4FED23-FC1B-410C-B5C8-67E6365FF4BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "metarwiz-tests", "metarwiz-tests\metarwiz-tests.csproj", "{1E18F91E-1575-4A9A-A1F7-B57B2931ABFD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BA4FED23-FC1B-410C-B5C8-67E6365FF4BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA4FED23-FC1B-410C-B5C8-67E6365FF4BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA4FED23-FC1B-410C-B5C8-67E6365FF4BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA4FED23-FC1B-410C-B5C8-67E6365FF4BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E18F91E-1575-4A9A-A1F7-B57B2931ABFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E18F91E-1575-4A9A-A1F7-B57B2931ABFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E18F91E-1575-4A9A-A1F7-B57B2931ABFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E18F91E-1575-4A9A-A1F7-B57B2931ABFD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {45FDE9D2-1D07-4FE1-BACF-98A7373733BF}
+	EndGlobalSection
+EndGlobal
