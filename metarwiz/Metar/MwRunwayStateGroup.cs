@@ -84,7 +84,7 @@ namespace ZippyNeuron.Metarwiz.Metar
         public override string ToString()
         {
             return String.Concat(
-                _runway,
+                String.Format("{0:00}", _runway),
                 _deposit,
                 _extent,
                 @"//",
