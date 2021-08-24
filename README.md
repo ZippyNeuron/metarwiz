@@ -1,2 +1,2 @@
 # metarviz
-This class library allows the easy processing and visualisation of METAR (Meteorological Aerodrome Report) data.
+This simple class library can be used to parse and visualise METAR reports.
