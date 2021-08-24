@@ -12,7 +12,7 @@ string metar = @"METAR EGLC 221850Z AUTO 29005KT 9999 NCD 19/16 Q1022="
 /* the following uses the static method to parse and create an instance of Metarwiz */
 Metarwiz metarwiz = Metarwiz.Parse(metar);
 
-/* let's get the temperature information using Metarwiz */
+/* let's get the temperature information */
 MwTemperature t = metarwiz.Get<MwTemperature>();
 
     _ = t.Celsius;
@@ -21,12 +21,12 @@ MwTemperature t = metarwiz.Get<MwTemperature>();
 /* let's get the cloud layers */
 IEnumerable<MwCloud> clouds = metarwiz.GetMany<MwCloud>();
 
-foreach(MwCloud cloud in clouds)
+foreach(MwCloud c in clouds)
 {
-    /* cloud types can be broken, scattered, few, overcast or not detected. */
-    CloudType cloudType = cloud.Cloud;
+    /* cloud types can be broken, scattered, few, overcast or not detected */
+    CloudType cloudType = c.Cloud;
 
     /* let's see how high the cloud layer is above ground level */
-    _ = cloud.AboveGroundLevel
+    _ = c.AboveGroundLevel
 }
 ```
