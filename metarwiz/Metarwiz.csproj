@@ -3,28 +3,37 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageId>ZippyNeuron.Metarwiz</PackageId>
-    <Authors>ZippyNeuron</Authors>
+    <Authors>Andy</Authors>
     <Company>ZippyNeuron</Company>
     <Product>Metarwiz</Product>
     <RootNamespace>ZippyNeuron.Metarwiz</RootNamespace>
     <AssemblyName>ZippyNeuron.Metarwiz</AssemblyName>
-    <PackageProjectUrl>https://www.zippyneuron.co.uk</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/AndysRoom/metarwiz</PackageProjectUrl>
     <RepositoryUrl>https://github.com/AndysRoom/metarwiz</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>metarwiz.pfx</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <Description>This simple class library can be used to parse and visualise METAR reports.</Description>
-    <Copyright>https://www.zippyneuron.co.uk</Copyright>
+    <Copyright>ZippyNeuron</Copyright>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageTags>parser tools flight simulation pilot metar report aviation weather terminal aerodrome forecast station meteorological</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile></DocumentationFile>
     <Optimize>false</Optimize>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
