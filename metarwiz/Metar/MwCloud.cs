@@ -7,7 +7,6 @@ namespace ZippyNeuron.Metarwiz.Metar
     public class MwCloud : MvMetarItem
     {
         private const int _multiplier = 100;
-        private readonly string _cloud;
         private readonly string _descriptor;
         private readonly int _altitude;
         private readonly CloudType _cloudType;
@@ -16,7 +15,6 @@ namespace ZippyNeuron.Metarwiz.Metar
         {
             _ = int.TryParse(Groups["ALTITUDE"].Value, out _altitude);
             _ = Enum.TryParse<CloudType>(Groups["CLOUD"].Value, out _cloudType);
-            _cloud = Groups["CLOUD"].Value;
             _descriptor = Groups["DESCRIPTOR"].Value;
         }
 
