@@ -4,7 +4,7 @@ using ZippyNeuron.Metarwiz.Enums;
 
 namespace ZippyNeuron.Metarwiz.Metar
 {
-    public class MwRunwayVisualRange : MvMetarItem
+    public class MwRunwayVisualRange : MwMetarItem
     {
         private readonly int _runway;
         private readonly string _designator;

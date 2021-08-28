@@ -8,14 +8,17 @@ namespace ZippyNeuron.Metarwiz.Utilities
         private const string _terminator = "=";
         private readonly string _metar;
 
-        public MetarInfo(string metar)
+        protected internal MetarInfo(string metar, string tag)
         {
             _metar = metar;
 
             HasTerminator = _metar.EndsWith(_terminator);
             Metar = RemoveRemarks(RemoveTerminator(_metar));
             Remarks = GetRemarks(_metar);
+            Tag = tag;
         }
+
+        public string Tag { get; }
 
         public string Metar { get; }
 

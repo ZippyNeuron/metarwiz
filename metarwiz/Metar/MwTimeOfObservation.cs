@@ -3,13 +3,13 @@ using ZippyNeuron.Metarwiz.Abstractions;
 
 namespace ZippyNeuron.Metarwiz.Metar
 {
-    public class MwTimeOfObservation : MvMetarItem
+    public class MwTimeOfObservation : MwMetarItem
     {
         private readonly int _day;
         private readonly int _hour;
         private readonly int _minute;
         private readonly DateTime _date;
-
+        
         public MwTimeOfObservation(int position, string value) : base(position, value, Pattern)
         {
             _ = int.TryParse(Groups["DAY"].Value, out _day);
@@ -26,13 +26,13 @@ namespace ZippyNeuron.Metarwiz.Metar
                 );
         }
 
-        public int Day => Date.Day;
+        public int Day => _day;
 
-        public int Hour => Date.Hour;
+        public int Hour => _hour;
 
-        public int Minute => Date.Minute;
+        public int Minute => _minute;
 
-        /* this full date is created presuming the metar is for the current month */
+        [Obsolete("This property will be removed with next release")]
         public DateTime Date => _date;
 
         public static string Pattern => @"^(?<DAY>\d{2})(?<HOUR>\d{2})(?<MINUTE>\d{2})([Z])$";

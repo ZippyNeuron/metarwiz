@@ -3,7 +3,7 @@ using ZippyNeuron.Metarwiz.Abstractions;
 
 namespace ZippyNeuron.Metarwiz.Metar
 {
-    public class MwAutoOrNil : MvMetarItem
+    public class MwAutoOrNil : MwMetarItem
     {
         private readonly string _auto;
         private readonly string _nil;

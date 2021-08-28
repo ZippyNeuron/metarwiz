@@ -4,13 +4,13 @@ using ZippyNeuron.Metarwiz.Abstractions;
 
 namespace ZippyNeuron.Metarwiz.Factories
 {
-    public class MetarItemFactory : MetarFactoryBase, IMetarItemFactory
+    public class MetarRemarksFactory : MetarFactoryBase, IMetarItemFactory
     {
-        internal MetarItemFactory() { }
+        internal MetarRemarksFactory() { }
 
         public IMetarItem Create(int position, string item)
         {
-            IEnumerable<Type> types = GetTypesOfBase(typeof(MwMetarItem));
+            IEnumerable<Type> types = GetTypesOfBase(typeof(RwMetarItem));
 
             foreach (Type t in types)
             {

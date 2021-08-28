@@ -2,7 +2,7 @@
 
 namespace ZippyNeuron.Metarwiz.Metar
 {
-    public class MwLocation : MvMetarItem
+    public class MwLocation : MwMetarItem
     {
         private readonly string _icao;
 
@@ -15,7 +15,7 @@ namespace ZippyNeuron.Metarwiz.Metar
 
         public static string Pattern => @"^(?<ICAO>[A-Z]{4})$";
 
-        public static bool IsMatch(int position, string value) => position == 1 && Match(value, Pattern);
+        public static bool IsMatch(int position, string value) => position == 2 && Match(value, Pattern);
 
         public override string ToString()
         {

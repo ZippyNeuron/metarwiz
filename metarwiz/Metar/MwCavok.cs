@@ -1,8 +1,9 @@
-﻿using ZippyNeuron.Metarwiz.Abstractions;
+﻿using System;
+using ZippyNeuron.Metarwiz.Abstractions;
 
 namespace ZippyNeuron.Metarwiz.Metar
 {
-    public class MwCavok : MvMetarItem
+    public class MwCavok : MwMetarItem
     {
         private readonly string _cavok;
 
@@ -11,6 +12,7 @@ namespace ZippyNeuron.Metarwiz.Metar
             _cavok = Groups["CAVOK"].Value;
         }
 
+        [Obsolete("This property will be removed with next release")]
         public bool IsCavok => _cavok == "CAVOK";
 
         public static string Pattern => @"^(?<CAVOK>CAVOK)$";

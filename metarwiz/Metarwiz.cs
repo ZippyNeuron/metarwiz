@@ -8,55 +8,66 @@ using ZippyNeuron.Metarwiz.Utilities;
 
 namespace ZippyNeuron.Metarwiz
 {
-    public class Metarwiz
+    public class Metarwiz : IMetarwiz
     {
         private IDictionary<int, IMetarItem> _metarItems;
-        private readonly MetarInfo _metarInfo;
+        private MetarInfo _metarInfo;
 
-        private Metarwiz(string metar)
-        {
-            _metarInfo = new(metar);
-            _metarItems = ParseParts(_metarInfo.Metar);
-        }
+        public Metarwiz() { }
+
+        public Metarwiz(string metar) => Parse(metar, null);
 
         public MetarInfo Metar => _metarInfo;
 
+        [Obsolete("This property will be removed with next release, please use Metar.Remarks or Metar.HasRemarks instead")]
         public string Remarks => _metarInfo.Remarks;
 
-        private IDictionary<int, IMetarItem> ParseParts(string metar)
+        private IDictionary<int, IMetarItem> ParseMetar(MetarInfo metarInfo)
         {
-            Dictionary<int, IMetarItem> items = new();
+            IDictionary<int, IMetarItem> items = new Dictionary<int, IMetarItem>();
+            IMetarItemFactory factory;
 
-            string[] parts = metar.Split(" ");
+            int position = 0;
 
-            for (int i = 0; i < parts.Length; i++)
+            foreach (string part in metarInfo.Metar.Split(" "))
             {
-                items.Add(i, MetarItemFactory.Create(i, parts[i]));
+                position++;
+                factory = new MetarItemFactory();
+
+                IMetarItem item = factory.Create(position, part);
+
+                if (item != null)
+                    items.Add(position, item);
+            }
+
+            foreach (string part in metarInfo.Remarks.Split(" "))
+            {
+                position++;
+                factory = new MetarRemarksFactory();
+
+                IMetarItem item = factory.Create(position, part);
+
+                if (item != null)
+                    items.Add(position, item);
             }
 
             return items;
         }
 
-        public T Get<T>() where T : IMetarItem
-        {
-            return _metarItems
+        public T Get<T>() where T : IMetarItem => _metarItems
                 .Where(i => i.Value.GetType() == typeof(T))
                 .Select(i => i.Value)
                 .Cast<T>()
                 .ToList()
                 .FirstOrDefault();
-        }
 
-        public IEnumerable<T> GetMany<T>() where T : IMetarItem
-        {
-            return _metarItems
+        public IEnumerable<T> GetMany<T>() where T : IMetarItem => _metarItems
                 .Where(i => i.Value.GetType() == typeof(T))
                 .Select(i => i.Value)
                 .Cast<T>()
                 .ToList();
-        }
 
-        public static Metarwiz Parse(string metar)
+        public void Parse(string metar, string tag)
         {
             if (string.IsNullOrEmpty(metar))
                 throw new Exception("The report cannot be empty.");
@@ -64,15 +75,18 @@ namespace ZippyNeuron.Metarwiz
             if (metar.Length < 5 || !metar.StartsWith("METAR"))
                 throw new Exception("The report should start with the METAR header.");
 
-            return new Metarwiz(metar);
+            _metarInfo = new(metar, tag);
+            _metarItems = ParseMetar(_metarInfo);
         }
+
+        public static Metarwiz Parse(string metar) => new(metar);
 
         public override string ToString()
         {
             StringBuilder builder = new();
 
             foreach (IMetarItem item in _metarItems.Values)
-                builder.Append($"{((item.Position > 0) ? " " : String.Empty)}{item}");
+                builder.Append($"{((item.Position > 1) ? " " : String.Empty)}{item}");
 
             return $"{builder.ToString().Trim()}{_metarInfo.Terminator}";
         }

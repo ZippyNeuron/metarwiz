@@ -5,7 +5,13 @@ VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "metarwiz", "metarwiz\metarwiz.csproj", "{BA4FED23-FC1B-410C-B5C8-67E6365FF4BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "metarwiz-tests", "metarwiz-tests\metarwiz-tests.csproj", "{1E18F91E-1575-4A9A-A1F7-B57B2931ABFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "metarwiz-tests", "metarwiz-tests\metarwiz-tests.csproj", "{1E18F91E-1575-4A9A-A1F7-B57B2931ABFD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{7BFFCDA9-551A-4AA6-AA52-8965275C232E}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		RELEASE.md = RELEASE.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -4,23 +4,23 @@ using ZippyNeuron.Metarwiz.Enums;
 
 namespace ZippyNeuron.Metarwiz.Metar
 {
-    public class MwRecentWeather : MvMetarItem
+    public class MwRecentWeather : MwMetarItem
     {
-        private readonly string _supplementary;
+        private readonly string _recent;
 
         public MwRecentWeather(int position, string value) : base(position, value, Pattern)
         {
-            _supplementary = Groups["SUPPLEMENTARY"].Value;
+            _recent = Groups["RECENTWEATHER"].Value;
         }
 
-        public RecentWeatherType Kind => (!String.IsNullOrEmpty(_supplementary)) ? Enum.Parse<RecentWeatherType>(_supplementary) : RecentWeatherType.Unspecified;
+        public RecentWeatherType Kind => (!String.IsNullOrEmpty(_recent)) ? Enum.Parse<RecentWeatherType>(_recent) : RecentWeatherType.Unspecified;
 
         private static string GetPattern()
         {
-            string supplementaries = String
+            string recents = String
                 .Join("|", Enum.GetNames<RecentWeatherType>());
 
-            return $@"^(?<SUPPLEMENTARY>{supplementaries})$";
+            return $@"^(?<RECENTWEATHER>{recents})$";
         }
 
         public static string Pattern => GetPattern();

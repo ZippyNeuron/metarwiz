@@ -3,7 +3,7 @@ using ZippyNeuron.Metarwiz.Abstractions;
 
 namespace ZippyNeuron.Metarwiz.Metar
 {
-    public class MwWindVariation : MvMetarItem
+    public class MwWindVariation : MwMetarItem
     {
         private readonly int _from;
         private readonly int _to;

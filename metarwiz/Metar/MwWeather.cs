@@ -5,7 +5,7 @@ using ZippyNeuron.Metarwiz.Extensions;
 
 namespace ZippyNeuron.Metarwiz.Metar
 {
-    public class MwWeather : MvMetarItem
+    public class MwWeather : MwMetarItem
     {
         private readonly string _intensity;
         private readonly string _characteristic;
@@ -22,13 +22,16 @@ namespace ZippyNeuron.Metarwiz.Metar
             _weather2 = Groups["WEATHER2"].Value;
         }
 
-        public bool InVacinity => _vacinity == "VC";
+        [Obsolete("This property will be removed with next release, please use IsInVacinity")]
+        public bool InVacinity => IsInVacinity;
+
+        public bool IsInVacinity => _vacinity == "VC";
+
+        public WeatherCharacteristicType Characteristic => (!String.IsNullOrEmpty(_characteristic)) ? Enum.Parse<WeatherCharacteristicType>(_characteristic) : WeatherCharacteristicType.Unspecified;
 
         public WeatherType WeatherPrimary => (!String.IsNullOrEmpty(_weather1)) ? Enum.Parse<WeatherType>(_weather1) : WeatherType.Unspecified;
 
         public WeatherType WeatherSecondary => (!String.IsNullOrEmpty(_weather2)) ? Enum.Parse<WeatherType>(_weather2) : WeatherType.Unspecified;
-
-        public WeatherCharacteristicType Characteristic => (!String.IsNullOrEmpty(_characteristic)) ? Enum.Parse<WeatherCharacteristicType>(_characteristic) : WeatherCharacteristicType.Unspecified;
 
         public WeatherIntensityIndicator Intensity => _intensity switch
             {
@@ -45,7 +48,7 @@ namespace ZippyNeuron.Metarwiz.Metar
             string weathers = String
                 .Join("|", Enum.GetNames<WeatherType>());
 
-            return $@"^(?<INTENSITY>\-|\+|)?(?<CHARACTERISTIC>{characteristics})??(?<VACINITY>VC)?(?<WEATHER1>{weathers})?(?<WEATHER2>{weathers})?$";
+            return $@"^(?<INTENSITY>\-|\+|)?(?<VACINITY>VC)?(?<CHARACTERISTIC>{characteristics})?(?<WEATHER1>{weathers})?(?<WEATHER2>{weathers})?$";
         }
 
         public static string Pattern => GetPattern();
@@ -54,10 +57,8 @@ namespace ZippyNeuron.Metarwiz.Metar
 
         public override string ToString()
         {
-            string intensity = Intensity.GetDescription();
-
             return String.Concat(
-                intensity,
+                Intensity.GetDescription(),
                 _vacinity,
                 (Characteristic != WeatherCharacteristicType.Unspecified) ? Enum.GetName<WeatherCharacteristicType>(Characteristic) : String.Empty,
                 (WeatherPrimary != WeatherType.Unspecified) ? Enum.GetName<WeatherType>(WeatherPrimary) : String.Empty,

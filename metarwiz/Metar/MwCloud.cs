@@ -4,7 +4,7 @@ using ZippyNeuron.Metarwiz.Enums;
 
 namespace ZippyNeuron.Metarwiz.Metar
 {
-    public class MwCloud : MvMetarItem
+    public class MwCloud : MwMetarItem
     {
         private const int _multiplier = 100;
         private readonly string _descriptor;

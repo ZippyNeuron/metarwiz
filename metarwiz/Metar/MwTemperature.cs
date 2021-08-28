@@ -3,7 +3,7 @@ using ZippyNeuron.Metarwiz.Abstractions;
 
 namespace ZippyNeuron.Metarwiz.Metar
 {
-    public class MwTemperature : MvMetarItem
+    public class MwTemperature : MwMetarItem
     {
         private readonly string _tempSign;
         private readonly int _temperature;

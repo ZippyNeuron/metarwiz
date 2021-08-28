@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>metarviz.tests</RootNamespace>
+    <RootNamespace>metarwiz.tests</RootNamespace>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>

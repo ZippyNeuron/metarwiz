@@ -16,7 +16,7 @@ Metarwiz metarwiz = Metarwiz.Parse(metar);
 MwTemperature t = metarwiz.Get<MwTemperature>();
 
     _ = t.Celsius;
-    _ = t.DewPoint;
+    _ = t.DewPoint; 
 
 /* let's get the cloud layers */
 IEnumerable<MwCloud> clouds = metarwiz.GetMany<MwCloud>();

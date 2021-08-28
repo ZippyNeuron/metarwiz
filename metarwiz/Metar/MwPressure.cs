@@ -1,12 +1,11 @@
 ﻿using System;
 using ZippyNeuron.Metarwiz.Abstractions;
+using ZippyNeuron.Metarwiz.Utilities;
 
 namespace ZippyNeuron.Metarwiz.Metar
 {
-    public class MwPressure : MvMetarItem
+    public class MwPressure : MwMetarItem
     {
-        private const decimal inHgTohPa = 33.86389m;
-        private const decimal hPaToinHg = 00.02953m;
         private readonly string _type;
         private readonly decimal _amount;
 
@@ -16,11 +15,15 @@ namespace ZippyNeuron.Metarwiz.Metar
             _ = decimal.TryParse(Groups["AMOUNT"].Value, out _amount);
         }
 
-        /* hPa (hectopascal) */
-        public decimal hPa => Math.Round((_type == "Q") ? _amount : (_amount / 100) * inHgTohPa, 0);
+        [Obsolete("This property will be removed with next release, please use HPa")]
+        public decimal hPa => HPa;
 
-        /* inHg (inch of mercury) */
-        public decimal inHg => Math.Round((_type == "A") ? (_amount / 100) : _amount * hPaToinHg, 2);
+        public decimal HPa => Math.Round((_type == "Q") ? _amount : (_amount / 100) * MetarConvert.inHgTohPa, 0);
+
+        [Obsolete("This property will be removed with next release, please use InHg")]
+        public decimal inHg => InHg;
+
+        public decimal InHg => Math.Round((_type == "A") ? (_amount / 100) : _amount * MetarConvert.hPaToinHg, 2);
 
         public static string Pattern => @"^(?<TYPE>Q|A)(?<AMOUNT>\d+)$";
 

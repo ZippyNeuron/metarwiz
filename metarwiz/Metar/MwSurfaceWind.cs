@@ -4,16 +4,13 @@ using ZippyNeuron.Metarwiz.Enums;
 
 namespace ZippyNeuron.Metarwiz.Metar
 {
-    public class MwSurfaceWind : MvMetarItem
+    public class MwSurfaceWind : MwMetarItem
     {
         private readonly int _direction;
         private readonly int _gusting;
         private readonly int _speed;
         private readonly string _units;
         private readonly string _vrb;
-
-        private const decimal _MpsToKts = 1.943844m;
-        private const decimal _KtsToMps = 0.514444m;
 
         public MwSurfaceWind(int position, string value) : base(position, value, Pattern)
         {
@@ -24,13 +21,10 @@ namespace ZippyNeuron.Metarwiz.Metar
             _units = Groups["UNITS"].Value;
         }
 
-        /* the incoming report will specify this in degrees magnetic */
         public int Direction => _direction;
 
-        /* speeds are based on an averaging period of ten minutes */
         public decimal Gusting => _gusting;
 
-        /* speeds are based on an averaging period of ten minutes */
         public int Speed => _speed;
 
         public SpeedUnit Units => _units switch

@@ -3,7 +3,7 @@ using ZippyNeuron.Metarwiz.Abstractions;
 
 namespace ZippyNeuron.Metarwiz.Metar
 {
-    public class MwRunwayStateGroup : MvMetarItem
+    public class MwRunwayStateGroup : MwMetarItem
     {
         private readonly int _runway;
         private readonly string _extent;
@@ -67,9 +67,9 @@ namespace ZippyNeuron.Metarwiz.Metar
 
         public bool IsNoSpecificRunway => (IsNoNewInformation || IsAllRunways);
 
-        public bool IsLeft => (!IsNoSpecificRunway) ? (_runway < 50) : false;
+        public bool IsLeft => (!IsNoSpecificRunway) && (_runway < 50);
 
-        public bool IsRight => (!IsNoSpecificRunway) ? (_runway > 50) : false;
+        public bool IsRight => (!IsNoSpecificRunway) && (_runway > 50);
 
         public string Orientation => (!IsNoSpecificRunway) ? (IsLeft) ? String.Empty : "R" : String.Empty;
 

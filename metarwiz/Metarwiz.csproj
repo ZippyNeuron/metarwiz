@@ -30,6 +30,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Metar\MwVacinityThunderstorm.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>

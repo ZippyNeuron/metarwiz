@@ -2,9 +2,9 @@
 
 namespace ZippyNeuron.Metarwiz.Abstractions
 {
-    public abstract class MvMetarItem : IMetarItem
+    public abstract class BaseMetarItem
     {
-        internal MvMetarItem(int position, string value, string pattern)
+        internal BaseMetarItem(int position, string value, string pattern)
         {
             Position = position;
             Value = value;
@@ -14,7 +14,7 @@ namespace ZippyNeuron.Metarwiz.Abstractions
         protected GroupCollection Groups { get; }
 
         public int Position { get; set; }
-        
+
         public string Value { get; set; }
 
         protected static bool Match(string value, string pattern) => Regex.IsMatch(value, pattern);
