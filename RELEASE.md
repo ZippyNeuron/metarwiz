@@ -2,6 +2,7 @@
 
 ## 1.4.0 (Not Released Yet!)
 * RwPressureTendancy metar item class has been renamed to RwPressureTendency
+* Added an icon for the nuget.org package
 
 ## 1.3.0
 

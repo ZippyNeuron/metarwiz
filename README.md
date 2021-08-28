@@ -1,4 +1,4 @@
-# **Metarwiz**
+# **Metarwiz** ![](https://img.shields.io/nuget/v/ZippyNeuron.Metarwiz.svg)
 This simple class library can be used to parse and visualise METAR reports.  Below is some example code that shows you how you can use the Metarwiz API to retrieve information from a real METAR report.
 <br/>
 

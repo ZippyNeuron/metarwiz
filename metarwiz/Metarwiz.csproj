@@ -22,6 +22,8 @@
     <Copyright>ZippyNeuron</Copyright>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageTags>parser tools flight simulation pilot metar report aviation weather terminal aerodrome forecast station meteorological</PackageTags>
+    <PackageIcon>nuget-org.png</PackageIcon>
+    <PackageIconUrl />
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -35,6 +37,10 @@
 
   <ItemGroup>
     <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="E:\ab-filestore\Development\ZippyNeuron.Metarwiz.Key\nuget-org.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
