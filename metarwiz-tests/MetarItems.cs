@@ -638,13 +638,13 @@ namespace metarwiz.tests
 
         [TestMethod]
         [DataRow(_metar)]
-        public void Get_RwPressureTendancy(string metar)
+        public void Get_RwPressureTendency(string metar)
         {
             /* arrange */
             Metarwiz m = Metarwiz.Parse(metar);
 
             /* act */
-            RwPressureTendancy x = m.Get<RwPressureTendancy>();
+            RwPressureTendency x = m.Get<RwPressureTendency>();
 
             /* assert */
             Assert.IsNotNull(x);

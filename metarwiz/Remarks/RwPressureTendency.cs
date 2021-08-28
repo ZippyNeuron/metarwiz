@@ -5,13 +5,13 @@ using ZippyNeuron.Metarwiz.Utilities;
 
 namespace ZippyNeuron.Metarwiz.Remarks
 {
-    public class RwPressureTendancy : RwMetarItem
+    public class RwPressureTendency : RwMetarItem
     {
         private readonly string _five;
         private readonly PressureTendencyType _type;
         private readonly int _pressure;
 
-        public RwPressureTendancy(int position, string value) : base(position, value, Pattern)
+        public RwPressureTendency(int position, string value) : base(position, value, Pattern)
         {
             _five = Groups["5"].Value;
             _ = Enum.TryParse(Groups["A"].Value, out _type);

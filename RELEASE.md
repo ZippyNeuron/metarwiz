@@ -1,5 +1,8 @@
 # Release Notes
 
+## 1.4.0 (Not Released Yet!)
+* RwPressureTendancy metar item class has been renamed to RwPressureTendency
+
 ## 1.3.0
 
 * Supports instance creation using the public constructor (no longer limited to the static method)
