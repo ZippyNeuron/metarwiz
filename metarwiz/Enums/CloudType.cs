@@ -14,7 +14,7 @@ namespace ZippyNeuron.Metarwiz.Enums
         FEW,
         [Description("Overcast")]
         OVC,
-        [Description("No Clouds Detected")]
+        [Description("No Cloud Detected")]
         NCD,
     }
 }
