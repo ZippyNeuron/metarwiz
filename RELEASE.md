@@ -3,6 +3,10 @@
 ## 1.4.0 (Not Released Yet!)
 * RwPressureTendancy metar item class has been renamed to RwPressureTendency
 * Added an icon for the nuget.org package
+* Obsolete properties identified in version 1.3.0 have been removed
+* MetarItemFactory and MetarRemarksFactory were combined to form MetarParserFactory
+* Refactored and encapsulated the parsing functionality to reduce code duplication
+* Some general internal code tidy
 
 ## 1.3.0
 

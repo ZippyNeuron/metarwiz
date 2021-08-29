@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
-using ZippyNeuron.Metarwiz.Abstractions;
-using ZippyNeuron.Metarwiz.Utilities;
+using ZippyNeuron.Metarwiz.Parser;
 
 namespace ZippyNeuron.Metarwiz
 {

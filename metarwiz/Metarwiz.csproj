@@ -32,7 +32,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Metar\MwVacinityThunderstorm.cs" />
+    <Compile Remove="Parser\Metar\MwVacinityThunderstorm.cs" />
   </ItemGroup>
 
   <ItemGroup>
