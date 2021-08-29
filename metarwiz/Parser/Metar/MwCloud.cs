@@ -42,7 +42,7 @@ namespace ZippyNeuron.Metarwiz.Parser.Metar
 
             return String.Concat(
                 (Cloud != CloudType.Unspecified) ? Enum.GetName(Cloud) : @"///",
-                (Cloud != CloudType.NCD) ? alt : String.Empty,
+                (_altitude == 0) ? String.Empty : alt,
                 _descriptor
             ); ;
         }
