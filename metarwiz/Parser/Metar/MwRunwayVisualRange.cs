@@ -1,5 +1,6 @@
 ﻿using System;
 using ZippyNeuron.Metarwiz.Enums;
+using ZippyNeuron.Metarwiz.Extensions;
 
 namespace ZippyNeuron.Metarwiz.Parser.Metar
 {
@@ -30,6 +31,8 @@ namespace ZippyNeuron.Metarwiz.Parser.Metar
                 _ => RunwayType.U
             };
 
+        public string DesignatorDescription => Designator.GetDescription();
+
         public int Range => _range;
 
         public ObservationType Observation => _observation switch
@@ -39,6 +42,8 @@ namespace ZippyNeuron.Metarwiz.Parser.Metar
                 _ => ObservationType.U
             };
 
+        public string ObservationDescription => Observation.GetDescription();
+
         public TendencyIndicator Tendency => _tendency switch
             {
                 "U" => TendencyIndicator.U,
@@ -46,6 +51,8 @@ namespace ZippyNeuron.Metarwiz.Parser.Metar
                 "D" => TendencyIndicator.D,
                 _ => TendencyIndicator.Unspecified
             };
+
+        public string TendencyDescription => Tendency.GetDescription();
 
         public static string Pattern => @"^R(?<RUNWAY>\d+)?(?<DESIGNATOR>[A-Z]{1})?\/?(?<OBSERVATION>P|M)?(?<RANGE>\d+)(?<TENDENCY>U|D|N)$";
 

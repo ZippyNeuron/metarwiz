@@ -1,5 +1,6 @@
 ﻿using System;
 using ZippyNeuron.Metarwiz.Enums;
+using ZippyNeuron.Metarwiz.Extensions;
 
 namespace ZippyNeuron.Metarwiz.Parser.Metar
 {
@@ -13,6 +14,8 @@ namespace ZippyNeuron.Metarwiz.Parser.Metar
         }
 
         public RecentWeatherType Kind => (!String.IsNullOrEmpty(_recent)) ? Enum.Parse<RecentWeatherType>(_recent) : RecentWeatherType.Unspecified;
+
+        public string KindDescription => Kind.GetDescription();
 
         private static string GetPattern()
         {

@@ -1,5 +1,9 @@
 # Release Notes
 
+## 1.5.0
+* Added a console application to the GitHub repository to better demonstrate the Metarwiz class library
+* Any class property that returns an Enum type now has a corresponding description property.
+
 ## 1.4.0
 * RwPressureTendancy metar item class has been renamed to RwPressureTendency
 * Added an icon for the nuget.org package

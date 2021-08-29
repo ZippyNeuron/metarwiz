@@ -1,5 +1,6 @@
 ﻿using System;
 using ZippyNeuron.Metarwiz.Enums;
+using ZippyNeuron.Metarwiz.Extensions;
 using ZippyNeuron.Metarwiz.Utilities;
 
 namespace ZippyNeuron.Metarwiz.Parser.Remarks
@@ -18,6 +19,8 @@ namespace ZippyNeuron.Metarwiz.Parser.Remarks
         }
 
         public PressureTendencyType Type => _type;
+
+        public string TypeDescription => Type.GetDescription();
 
         public decimal HPa => Math.Round((_pressure / 10) + ((_pressure < 500) ? 1000m : 900m), 0);
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using ZippyNeuron.Metarwiz.Enums;
+using ZippyNeuron.Metarwiz.Extensions;
 
 namespace ZippyNeuron.Metarwiz.Parser.Metar
 {
@@ -32,6 +33,8 @@ namespace ZippyNeuron.Metarwiz.Parser.Metar
             "KT" => SpeedUnit.KT,
             _ => SpeedUnit.Unspecified
         };
+
+        public string UnitsDescription => Units.GetDescription();
 
         public bool IsVariable => _vrb == "VRB";
 

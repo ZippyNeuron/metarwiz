@@ -36,6 +36,8 @@ namespace ZippyNeuron.Metarwiz.Parser.Metar
                 _ => WeatherIntensityIndicator.Moderate
             };
 
+        public string IntensityDescription => Intensity.GetDescription();
+
         private static string GetPattern()
         {
             string characteristics = String

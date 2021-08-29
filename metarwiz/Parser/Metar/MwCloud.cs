@@ -1,5 +1,6 @@
 ﻿using System;
 using ZippyNeuron.Metarwiz.Enums;
+using ZippyNeuron.Metarwiz.Extensions;
 
 namespace ZippyNeuron.Metarwiz.Parser.Metar
 {
@@ -20,6 +21,8 @@ namespace ZippyNeuron.Metarwiz.Parser.Metar
         public int AboveGroundLevel => _altitude * _multiplier;
 
         public CloudType Cloud => _cloudType;
+
+        public string CloudDescription => Cloud.GetDescription();
 
         private static string GetPattern()
         {
