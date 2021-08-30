@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace ZippyNeuron.Metarwiz.Parser
 {
@@ -11,8 +12,11 @@ namespace ZippyNeuron.Metarwiz.Parser
         {
             MetarInfo = new(metar, tag);
 
-            string[] items = metar
-                .Split(" ");
+            string[] items = Regex
+                .Split(metar, @"(CIG \d{3}V\d{3}(\ |))|(\S+(\ |))", RegexOptions.None)
+                .Where((item) => !string.IsNullOrEmpty(item.Trim()))
+                .Select(item => item.Trim())
+                .ToArray();
 
             int rmk = items
                 .Select((item, index) =>
@@ -22,11 +26,12 @@ namespace ZippyNeuron.Metarwiz.Parser
                 .Where(i => i > 0)
                 .FirstOrDefault();
 
-            Items = items.Select(
-                (item, index) =>
-                {
-                    return new MetarParserItem(index, item, (rmk == 0 || index < rmk) ? MetarParserItemType.Metar : MetarParserItemType.Remark);
-                }
+            Items = items
+                .Select(
+                    (item, index) =>
+                    {
+                        return new MetarParserItem(index, item, (rmk == 0 || index < rmk) ? MetarParserItemType.Metar : MetarParserItemType.Remark);
+                    }
             );
         }
 

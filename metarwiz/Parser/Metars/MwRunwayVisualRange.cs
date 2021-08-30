@@ -2,7 +2,7 @@
 using ZippyNeuron.Metarwiz.Enums;
 using ZippyNeuron.Metarwiz.Extensions;
 
-namespace ZippyNeuron.Metarwiz.Parser.Metar
+namespace ZippyNeuron.Metarwiz.Parser.Metars
 {
     public class MwRunwayVisualRange : MwMetarItem
     {
@@ -49,12 +49,13 @@ namespace ZippyNeuron.Metarwiz.Parser.Metar
                 "U" => TendencyIndicator.U,
                 "N" => TendencyIndicator.N,
                 "D" => TendencyIndicator.D,
+                "FT" => TendencyIndicator.FT,
                 _ => TendencyIndicator.Unspecified
             };
 
         public string TendencyDescription => Tendency.GetDescription();
 
-        public static string Pattern => @"^R(?<RUNWAY>\d+)?(?<DESIGNATOR>[A-Z]{1})?\/?(?<OBSERVATION>P|M)?(?<RANGE>\d+)(?<TENDENCY>U|D|N)$";
+        public static string Pattern => @"^R(?<RUNWAY>\d+)?(?<DESIGNATOR>[A-Z]{1})?\/?(?<OBSERVATION>P|M)?(?<RANGE>\d+)(?<TENDENCY>U|D|N|FT)$";
 
         public static bool IsMatch(int position, string value) => Match(value, Pattern);
 

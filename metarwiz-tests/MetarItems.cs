@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using ZippyNeuron.Metarwiz;
 using ZippyNeuron.Metarwiz.Enums;
-using ZippyNeuron.Metarwiz.Parser.Metar;
+using ZippyNeuron.Metarwiz.Parser.Metars;
 using ZippyNeuron.Metarwiz.Parser.Remarks;
 
 namespace metarwiz.tests

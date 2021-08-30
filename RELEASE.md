@@ -2,7 +2,11 @@
 
 ## 1.5.0
 * Added a console application to the GitHub repository to better demonstrate the Metarwiz class library
-* Any class property that returns an Enum type now has a corresponding description property.
+* Any class property that returns an Enum type now has a corresponding description property
+* Implemented RAE (Rain Ending) and RAB (Rain Beginning)
+* Implemented CIG Group (Variable Ceiling)
+* Extended the TendencyIndicator to include FT in RVR observations
+* Some minor refactoring and code reorganisation
 
 ## 1.4.0
 * RwPressureTendancy metar item class has been renamed to RwPressureTendency
@@ -40,4 +44,4 @@
 * Metarwiz.Remarks - This property will be removed with next release, please use Metar.Remarks or Metar.HasRemarks instead
 
 ## 1.2.0
-This is the first release. This version will parse the base METAR information but will not parse the remarks section.
+This is the first release. This version will parse the base METAR information but will not parse the remarks section

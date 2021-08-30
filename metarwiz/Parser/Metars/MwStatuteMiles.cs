@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ZippyNeuron.Metarwiz.Parser.Metar
+namespace ZippyNeuron.Metarwiz.Parser.Metars
 {
     public class MwStatuteMiles : MwMetarItem
     {
@@ -22,7 +22,7 @@ namespace ZippyNeuron.Metarwiz.Parser.Metar
         public override string ToString()
         {
             return String.Concat(
-                String.Format("{0:00}", Distance),
+                Distance.ToString(),
                 _sm
             );
         }

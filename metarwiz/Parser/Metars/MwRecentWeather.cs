@@ -2,7 +2,7 @@
 using ZippyNeuron.Metarwiz.Enums;
 using ZippyNeuron.Metarwiz.Extensions;
 
-namespace ZippyNeuron.Metarwiz.Parser.Metar
+namespace ZippyNeuron.Metarwiz.Parser.Metars
 {
     public class MwRecentWeather : MwMetarItem
     {

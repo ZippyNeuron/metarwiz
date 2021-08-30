@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ZippyNeuron.Metarwiz.Parser.Metar
+namespace ZippyNeuron.Metarwiz.Parser.Metars
 {
     public class MwVisibility : MwMetarItem
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using ZippyNeuron.Metarwiz.Utilities;
 
-namespace ZippyNeuron.Metarwiz.Parser.Metar
+namespace ZippyNeuron.Metarwiz.Parser.Metars
 {
     public class MwPressure : MwMetarItem
     {

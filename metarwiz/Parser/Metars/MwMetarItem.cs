@@ -1,4 +1,4 @@
-﻿namespace ZippyNeuron.Metarwiz.Parser.Metar
+﻿namespace ZippyNeuron.Metarwiz.Parser.Metars
 {
     public abstract class MwMetarItem : BaseMetarItem, IMetarItem
     {
