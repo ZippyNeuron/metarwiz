@@ -13,7 +13,7 @@
     <PackageProjectUrl>https://github.com/AndysRoom/metarwiz</PackageProjectUrl>
     <RepositoryUrl>https://github.com/AndysRoom/metarwiz</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
-    <Version>1.4.0</Version>
+    <Version>1.5.0</Version>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>metarwiz.pfx</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
@@ -24,6 +24,7 @@
     <PackageTags>parser tools flight simulation pilot metar report aviation weather terminal aerodrome forecast station meteorological</PackageTags>
     <PackageIcon>nuget-org.png</PackageIcon>
     <PackageIconUrl />
+    <PackageReleaseNotes>https://github.com/AndysRoom/metarwiz</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
