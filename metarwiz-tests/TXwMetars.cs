@@ -10,7 +10,7 @@ using ZippyNeuron.Metarwiz.Parser.Remarks;
 namespace metarwiz.tests
 {
     [TestClass]
-    public class MetarItems
+    public class TXwMetars
     {
         public const string _metar = @"METAR EGLC 221850Z R24R/M1200D 10SM TEMPO AUTO VCTS 29005G26KT NOSIG 250V320 CAVOK BKN012 FEW036 -VCSN +RA -TSRA VCFG 9999 NCD M19/16 SM01 Q1022 RESHSN 7649//93 RMK SFC VIS 4 1/2 AO2 FUNNEL CLOUD B13 6 NE CIG 003V005 SLP093 WSHFT 12 FROPA P0003 PK WND 29024/1853 60009 70009 T10640036 11066 21012 58033 $";
 
@@ -53,6 +53,27 @@ namespace metarwiz.tests
             Assert.IsFalse(x.Metar.HasTerminator);
             Assert.AreEqual(x.Metar.Terminator, String.Empty);
             Assert.AreEqual(x.Metar.Tag, null);
+            Assert.IsTrue(!String.IsNullOrEmpty(x.Metar.Remarks));
+        }
+
+        [TestMethod]
+        [DataRow(_metar)]
+        public void Create_Metarwiz_Instance_WithTag(string metar)
+        {
+            /* arrange */
+            Metarwiz x;
+
+            /* act */
+            x = new Metarwiz(metar, "Wibble");
+
+            /* assert */
+            Assert.IsNotNull(x);
+            Assert.IsNotNull(x.Metar);
+            Assert.IsTrue(!String.IsNullOrEmpty(x.Metar.Metar));
+            Assert.IsTrue(x.Metar.HasRemarks);
+            Assert.IsFalse(x.Metar.HasTerminator);
+            Assert.AreEqual(x.Metar.Terminator, String.Empty);
+            Assert.AreEqual(x.Metar.Tag, "Wibble");
             Assert.IsTrue(!String.IsNullOrEmpty(x.Metar.Remarks));
         }
 
