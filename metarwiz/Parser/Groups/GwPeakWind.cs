@@ -36,7 +36,7 @@ namespace ZippyNeuron.Metarwiz.Parser.Groups
 
         private static string GetPattern()
         {
-            return @"\ (?<PKWND>PK\ WND)\ (?<DIRECTION>\d{3})(?<SPEED>\d{2})\/((?<EXACTTIME>\d{4})|(?<MINUTESPASTTHEHOUR>\d{2}))";
+            return @"\ (?<PKWND>PK\ WND)\ (?<DIRECTION>\d{3})(?<SPEED>\d{2})\/((?<EXACTTIME>\d{4})|(?<MINUTEPASTTHEHOUR>\d{2}))";
         }
         
         public override string ToString()
