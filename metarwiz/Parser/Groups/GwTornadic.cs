@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using ZippyNeuron.Metarwiz.Enums;
+using ZippyNeuron.Metarwiz.Extensions;
 
 namespace ZippyNeuron.Metarwiz.Parser.Groups
 {
@@ -33,6 +34,8 @@ namespace ZippyNeuron.Metarwiz.Parser.Groups
         public int? Minutes => _minutes;
 
         public TornadicType Activity => _activity;
+
+        public string ActivityDescription => _activity.GetDescription();
 
         public bool HasEnded => _be == "E";
 
