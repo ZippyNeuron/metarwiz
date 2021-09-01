@@ -1,20 +1,21 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
-namespace ZippyNeuron.Metarwiz.Parser.Metar
+namespace ZippyNeuron.Metarwiz.Parser.Metars
 {
-    public class MwRunwayStateGroup : MwMetarItem
+    public class MwRunwayStateGroup : BaseMetarItem
     {
         private readonly int _runway;
         private readonly string _extent;
         private readonly string _deposit;
         private readonly string _depth;
 
-        public MwRunwayStateGroup(int position, string value) : base(position, value, Pattern)
+        public MwRunwayStateGroup(Match match)
         {
-            _ = int.TryParse(Groups["RUNWAY"].Value, out _runway);
-            _extent = Groups["EXTENT"].Value;
-            _deposit = Groups["DEPOSIT"].Value;
-            _depth = Groups["DEPTH"].Value; 
+            _ = int.TryParse(match.Groups["RUNWAY"].Value, out _runway);
+            _extent = match.Groups["EXTENT"].Value;
+            _deposit = match.Groups["DEPOSIT"].Value;
+            _depth = match.Groups["DEPTH"].Value; 
         }
 
         public string Deposit => _deposit switch
@@ -76,9 +77,7 @@ namespace ZippyNeuron.Metarwiz.Parser.Metar
 
         public string Runway => (!IsNoSpecificRunway) ? $"{Bearing}{Orientation}" : String.Empty;
 
-        public static string Pattern => @"^(?<RUNWAY>\d{2})(?<DEPOSIT>\d{1}|\/)(?<EXTENT>\d{1})\/\/(?<DEPTH>\d{2})$";
-
-        public static bool IsMatch(int position, string value) => Match(value, Pattern);
+        public static string Pattern => @"\ (?<RUNWAY>\d{2})(?<DEPOSIT>\d{1}|\/)(?<EXTENT>\d{1})\/\/(?<DEPTH>\d{2})";
 
         public override string ToString()
         {

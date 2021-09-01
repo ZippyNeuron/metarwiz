@@ -1,26 +1,25 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace ZippyNeuron.Metarwiz.Parser.Remarks
 {
-    public class RwSixHourMaxTemperature : RwMetarItem
+    public class RwSixHourMaxTemperature : BaseMetarItem
     {
         private readonly string _one;
         private readonly decimal _units = 0.10m;
         private readonly int _ma;
         private readonly int _amount;
 
-        public RwSixHourMaxTemperature(int position, string value) : base(position, value, Pattern)
+        public RwSixHourMaxTemperature(Match match)
         {
-            _one = Groups["1"].Value;
-            _ = int.TryParse(Groups["MA"].Value, out _ma);
-            _ = int.TryParse(Groups["AMOUNT"].Value, out _amount);
+            _one = match.Groups["1"].Value;
+            _ = int.TryParse(match.Groups["MA"].Value, out _ma);
+            _ = int.TryParse(match.Groups["AMOUNT"].Value, out _amount);
         }
 
         public decimal Celsius => ((_ma == 1) ? _amount * -1 : _amount) * _units;
 
-        public static string Pattern => @"^(?<1>1)(?<MA>\d{1})(?<AMOUNT>\d{3})$";
-
-        public static bool IsMatch(int position, string value) => Match(value, Pattern);
+        public static string Pattern => @"\ (?<1>1)(?<MA>\d{1})(?<AMOUNT>\d{3})";
 
         public override string ToString()
         {

@@ -1,23 +1,22 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace ZippyNeuron.Metarwiz.Parser.Remarks
 {
-    public class RwAutomatedStation : RwMetarItem
+    public class RwAutomatedStation : BaseMetarItem
     {
         private readonly string _a;
         private readonly int _rainsnowsensor;
 
-        public RwAutomatedStation(int position, string value) : base(position, value, Pattern)
+        public RwAutomatedStation(Match match)
         {
-            _a = Groups["A"].Value;
-            _ = int.TryParse(Groups["RAINSNOWSENSOR"].Value, out _rainsnowsensor);
+            _a = match.Groups["A"].Value;
+            _ = int.TryParse(match.Groups["RAINSNOWSENSOR"].Value, out _rainsnowsensor);
         }
 
         public bool HasRainSnowSensor => _rainsnowsensor == 2;
 
-        public static string Pattern => @"^(?<A>AO)(?<RAINSNOWSENSOR>\d{1})$";
-
-        public static bool IsMatch(int position, string value) => Match(value, Pattern);
+        public static string Pattern => @"\ (?<A>AO)(?<RAINSNOWSENSOR>\d{1})";
 
         public override string ToString()
         {

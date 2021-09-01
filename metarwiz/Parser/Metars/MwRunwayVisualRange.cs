@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using ZippyNeuron.Metarwiz.Enums;
+using ZippyNeuron.Metarwiz.Extensions;
 
-namespace ZippyNeuron.Metarwiz.Parser.Metar
+namespace ZippyNeuron.Metarwiz.Parser.Metars
 {
-    public class MwRunwayVisualRange : MwMetarItem
+    public class MwRunwayVisualRange : BaseMetarItem
     {
         private readonly int _runway;
         private readonly string _designator;
@@ -11,13 +13,13 @@ namespace ZippyNeuron.Metarwiz.Parser.Metar
         private readonly int _range;
         private readonly string _tendency;
 
-        public MwRunwayVisualRange(int position, string value) : base(position, value, Pattern)
+        public MwRunwayVisualRange(Match match)
         {
-            _designator = Groups["DESIGNATOR"].Value;
-            _observation = Groups["OBSERVATION"].Value;
-            _tendency = Groups["TENDENCY"].Value;
-            _ = int.TryParse(Groups["RUNWAY"].Value, out _runway);
-            _ = int.TryParse(Groups["RANGE"].Value, out _range);
+            _designator = match.Groups["DESIGNATOR"].Value;
+            _observation = match.Groups["OBSERVATION"].Value;
+            _tendency = match.Groups["TENDENCY"].Value;
+            _ = int.TryParse(match.Groups["RUNWAY"].Value, out _runway);
+            _ = int.TryParse(match.Groups["RANGE"].Value, out _range);
         }
 
         public int Runway => _runway;
@@ -30,6 +32,8 @@ namespace ZippyNeuron.Metarwiz.Parser.Metar
                 _ => RunwayType.U
             };
 
+        public string DesignatorDescription => Designator.GetDescription();
+
         public int Range => _range;
 
         public ObservationType Observation => _observation switch
@@ -39,17 +43,20 @@ namespace ZippyNeuron.Metarwiz.Parser.Metar
                 _ => ObservationType.U
             };
 
+        public string ObservationDescription => Observation.GetDescription();
+
         public TendencyIndicator Tendency => _tendency switch
             {
                 "U" => TendencyIndicator.U,
                 "N" => TendencyIndicator.N,
                 "D" => TendencyIndicator.D,
+                "FT" => TendencyIndicator.FT,
                 _ => TendencyIndicator.Unspecified
             };
 
-        public static string Pattern => @"^R(?<RUNWAY>\d+)?(?<DESIGNATOR>[A-Z]{1})?\/?(?<OBSERVATION>P|M)?(?<RANGE>\d+)(?<TENDENCY>U|D|N)$";
+        public string TendencyDescription => Tendency.GetDescription();
 
-        public static bool IsMatch(int position, string value) => Match(value, Pattern);
+        public static string Pattern => @"\ R(?<RUNWAY>\d+)?(?<DESIGNATOR>[A-Z]{1})?\/?(?<OBSERVATION>P|M)?(?<RANGE>\d+)(?<TENDENCY>U|D|N|FT)";
 
         public override string ToString()
         {

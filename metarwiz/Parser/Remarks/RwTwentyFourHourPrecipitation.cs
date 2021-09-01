@@ -1,26 +1,25 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace ZippyNeuron.Metarwiz.Parser.Remarks
 {
-    public class RwTwentyFourHourPrecipitation : RwMetarItem
+    public class RwTwentyFourHourPrecipitation : BaseMetarItem
     {
         private readonly string _seven;
         private readonly decimal _units = 0.01m;
         private readonly int _amount;
 
-        public RwTwentyFourHourPrecipitation(int position, string value) : base(position, value, Pattern)
+        public RwTwentyFourHourPrecipitation(Match match)
         {
-            _seven = Groups["7"].Value;
-            _ = int.TryParse(Groups["AMOUNT"].Value, out _amount);
+            _seven = match.Groups["7"].Value;
+            _ = int.TryParse(match.Groups["AMOUNT"].Value, out _amount);
         }
 
         public bool IsTrace => _amount == 0;
 
         public decimal Inches => _amount * _units;
 
-        public static string Pattern => @"^(?<7>7)(?<AMOUNT>\d{4})$";
-
-        public static bool IsMatch(int position, string value) => Match(value, Pattern);
+        public static string Pattern => @"\ (?<7>7)(?<AMOUNT>\d{4})";
 
         public override string ToString()
         {

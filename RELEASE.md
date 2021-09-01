@@ -1,5 +1,18 @@
 # Release Notes
 
+## 1.5.0
+* A major overhaul of the parser due to the expressive and verbose nature of the North American METAR
+* The overhaul of the parser has seen a 75-100x increase in performance
+* Added a console application to the GitHub repository to better demonstrate the Metarwiz class library
+* Any class property that returns an Enum type now has a corresponding description property
+* Implemented RAE (Rain Ending) and RAB (Rain Beginning)
+* Implemented CIG (Variable Ceiling)
+* Implemented SFC VIS and TWR VIS (Surface and Tower Visibility)
+* Implemented PK WND (Peak Wind)
+* Extended the TendencyIndicator to include FT in RVR observations
+* Added a new Metarwiz constructor so that a tag can be specified
+* Some minor refactoring and code reorganisation
+
 ## 1.4.0
 * RwPressureTendancy metar item class has been renamed to RwPressureTendency
 * Added an icon for the nuget.org package
@@ -36,4 +49,4 @@
 * Metarwiz.Remarks - This property will be removed with next release, please use Metar.Remarks or Metar.HasRemarks instead
 
 ## 1.2.0
-This is the first release. This version will parse the base METAR information but will not parse the remarks section.
+This is the first release. This version will parse the base METAR information but will not parse the remarks section

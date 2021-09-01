@@ -4,6 +4,7 @@ namespace ZippyNeuron.Metarwiz.Enums
 {
     public enum WeatherType
     {
+        /* weather */
         [Description("Unspecified")]
         Unspecified,
         [Description("Drizzle")]
@@ -46,5 +47,23 @@ namespace ZippyNeuron.Metarwiz.Enums
         DS,
         [Description("Sandstorm")]
         SS,
+
+        /* characteristics */
+        [Description("Thunderstorm")]
+        TS,
+        [Description("Shower")]
+        SH,
+        [Description("Freezing")]
+        FZ,
+        [Description("Blowing")]
+        BL,
+        [Description("Low Drifting")]
+        DR,
+        [Description("Shallow")]
+        MI,
+        [Description("Patches")]
+        BC,
+        [Description("Partial")]
+        PR,
     }
 }

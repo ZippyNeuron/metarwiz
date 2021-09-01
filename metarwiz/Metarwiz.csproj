@@ -32,7 +32,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Parser\Metar\MwVacinityThunderstorm.cs" />
+    <Compile Remove="Enums\WeatherCharacteristicType.cs" />
+    <Compile Remove="Parser\Metars\MwVacinityThunderstorm.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,32 +1,26 @@
-# **Metarwiz** | [![](https://img.shields.io/nuget/v/ZippyNeuron.Metarwiz.svg)](https://www.nuget.org/packages/ZippyNeuron.Metarwiz)
-This simple class library can be used to parse and visualise METAR reports.  Below is some example code that shows you how you can use the Metarwiz API to retrieve information from a real METAR report.
-<br/>
+# **Metarwiz** | [![](https://img.shields.io/nuget/v/ZippyNeuron.Metarwiz.svg?style=flat-square&logo=appveyor&color=238636)](https://www.nuget.org/packages/ZippyNeuron.Metarwiz)
+Is a simple class library can be used to parse and visualise METAR reports.
+
+The **metarwiz** project contains the library that delivers all the parsing functionality.
+
+The **metarwiz-tests** project contains some basic tests that support the development of Metarwiz.
  
-The following code is only for demonstration purposes and does not show the complete features of Metarwiz.
-<br/>
+The **metarwiz-console** project contains a wider range of code examples and can be used as a playground for Metarwiz.
+
+The following is a very simple example of how you might start using Metarwiz.
 
 ```c#
-/* this is a small example metar report */
+/* this is a small example METAR report */
 string metar = @"METAR EGLC 221850Z AUTO 29005KT 9999 NCD 19/16 Q1022="
 
-/* the following uses the static method to parse and create an instance of Metarwiz */
+/* the following uses the static method to parse and create an instance
+ * of Metarwiz. You can also use the instance constructor if desired.
+ */
 Metarwiz metarwiz = Metarwiz.Parse(metar);
 
-/* let's get the temperature information */
+/* let's get the temperature and dew point information from this METAR */
 MwTemperature t = metarwiz.Get<MwTemperature>();
 
     _ = t.Celsius;
-    _ = t.DewPoint; 
-
-/* let's get the cloud layers */
-IEnumerable<MwCloud> clouds = metarwiz.GetMany<MwCloud>();
-
-foreach(MwCloud c in clouds)
-{
-    /* cloud types can be broken, scattered, few, overcast or not detected */
-    CloudType cloudType = c.Cloud;
-
-    /* let's see how high the cloud layer is above ground level */
-    _ = c.AboveGroundLevel
-}
+    _ = t.DewPoint;
 ```

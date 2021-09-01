@@ -3,7 +3,8 @@ using System;
 using System.Collections.Generic;
 using ZippyNeuron.Metarwiz;
 using ZippyNeuron.Metarwiz.Enums;
-using ZippyNeuron.Metarwiz.Parser.Metar;
+using ZippyNeuron.Metarwiz.Parser.Groups;
+using ZippyNeuron.Metarwiz.Parser.Metars;
 using ZippyNeuron.Metarwiz.Parser.Remarks;
 
 namespace metarwiz.tests
@@ -11,7 +12,7 @@ namespace metarwiz.tests
     [TestClass]
     public class MetarItems
     {
-        public const string _metar = @"METAR EGLC 221850Z R24R/M1200D 10SM TEMPO AUTO VCTS 29005G26KT NOSIG 250V320 CAVOK BKN012 FEW036 -VCSN +RA -TSRA VCFG 9999 NCD M19/16 SM01 Q1022 RESHSN 7649//93 RMK AO2 SLP093 P0003 60009 70009 T10640036 11066 21012 58033 $";
+        public const string _metar = @"METAR EGLC 221850Z R24R/M1200D 10SM TEMPO AUTO VCTS 29005G26KT NOSIG 250V320 CAVOK BKN012 FEW036 -VCSN +RA -TSRA VCFG 9999 NCD M19/16 SM01 Q1022 RESHSN 7649//93 RMK SFC VIS 4 1/2 AO2 FUNNEL CLOUD B13 6 NE CIG 003V005 SLP093 P0003 PK WND 29024/1853 60009 70009 T10640036 11066 21012 58033 $";
 
         [TestMethod]
         [DataRow(_metar)]
@@ -90,7 +91,6 @@ namespace metarwiz.tests
             Assert.IsNotNull(x);
             Assert.IsFalse(x.IsNil);
             Assert.IsTrue(x.IsAutomated);
-            Assert.AreEqual(x.Value, "AUTO");
             Assert.AreEqual(x.ToString(), "AUTO");
         }
 
@@ -360,23 +360,6 @@ namespace metarwiz.tests
             Assert.AreEqual(x.ToString(), "221850Z");
         }
 
-        //[TestMethod]
-        //[DataRow(_metar)]
-        //public void Get_MwVacinityThunderstorm(string metar)
-        //{
-        //    /* arrange */
-        //    Metarwiz m = Metarwiz.Parse(metar);
-
-        //    /* act */
-        //    MwVacinityThunderstorm x = m.Get<MwVacinityThunderstorm>();
-
-        //    /* assert */
-        //    Assert.IsNotNull(x);
-        //    Assert.IsTrue(x.IsVCTS);
-        //    Assert.AreEqual(x.Value, "VCTS");
-        //    Assert.AreEqual(x.ToString(), "VCTS");
-        //}
-
         [TestMethod]
         [DataRow(_metar)]
         public void Get_MwVisibility(string metar)
@@ -408,35 +391,30 @@ namespace metarwiz.tests
             /* assert */
             Assert.IsNotNull(x);
             Assert.AreEqual(x.Count, 5);
-            Assert.AreEqual(x[0].Characteristic, WeatherCharacteristicType.TS);
             Assert.AreEqual(x[0].Intensity, WeatherIntensityIndicator.Moderate);
             Assert.AreEqual(x[0].IsInVacinity, true);
-            Assert.AreEqual(x[0].WeatherPrimary, WeatherType.Unspecified);
+            Assert.AreEqual(x[0].WeatherPrimary, WeatherType.TS);
             Assert.AreEqual(x[0].WeatherSecondary, WeatherType.Unspecified);
             Assert.AreEqual(x[0].Value, "VCTS");
             Assert.AreEqual(x[0].ToString(), "VCTS");
-            Assert.AreEqual(x[1].Characteristic, WeatherCharacteristicType.Unspecified);
             Assert.AreEqual(x[1].Intensity, WeatherIntensityIndicator.Light);
             Assert.AreEqual(x[1].IsInVacinity, true);
             Assert.AreEqual(x[1].WeatherPrimary, WeatherType.SN);
             Assert.AreEqual(x[1].WeatherSecondary, WeatherType.Unspecified);
             Assert.AreEqual(x[1].Value, "-VCSN");
             Assert.AreEqual(x[1].ToString(), "-VCSN");
-            Assert.AreEqual(x[2].Characteristic, WeatherCharacteristicType.Unspecified);
             Assert.AreEqual(x[2].Intensity, WeatherIntensityIndicator.Heavy);
             Assert.AreEqual(x[2].IsInVacinity, false);
             Assert.AreEqual(x[2].WeatherPrimary, WeatherType.RA);
             Assert.AreEqual(x[2].WeatherSecondary, WeatherType.Unspecified);
             Assert.AreEqual(x[2].Value, "+RA");
             Assert.AreEqual(x[2].ToString(), "+RA");
-            Assert.AreEqual(x[3].Characteristic, WeatherCharacteristicType.TS);
             Assert.AreEqual(x[3].Intensity, WeatherIntensityIndicator.Light);
             Assert.AreEqual(x[3].IsInVacinity, false);
-            Assert.AreEqual(x[3].WeatherPrimary, WeatherType.RA);
-            Assert.AreEqual(x[3].WeatherSecondary, WeatherType.Unspecified);
+            Assert.AreEqual(x[3].WeatherPrimary, WeatherType.TS);
+            Assert.AreEqual(x[3].WeatherSecondary, WeatherType.RA);
             Assert.AreEqual(x[3].Value, "-TSRA");
             Assert.AreEqual(x[3].ToString(), "-TSRA");
-            Assert.AreEqual(x[4].Characteristic, WeatherCharacteristicType.Unspecified);
             Assert.AreEqual(x[4].Intensity, WeatherIntensityIndicator.Moderate);
             Assert.AreEqual(x[4].IsInVacinity, true);
             Assert.AreEqual(x[4].WeatherPrimary, WeatherType.FG);
@@ -652,6 +630,81 @@ namespace metarwiz.tests
             Assert.AreEqual(x.InHg, 29.62m);
             Assert.AreEqual(x.Value, "58033");
             Assert.AreEqual(x.ToString(), "58033");
+        }
+
+        [TestMethod]
+        [DataRow(_metar)]
+        public void Get_GwSurfaceTowerVisibility(string metar)
+        {
+            /* arrange */
+            Metarwiz m = Metarwiz.Parse(metar);
+
+            /* act */
+            GwSurfaceTowerVisibility x = m.Get<GwSurfaceTowerVisibility>();
+
+            /* assert */
+            Assert.IsNotNull(x);
+            Assert.AreEqual(x.Distance, 4.5m);
+            Assert.AreEqual(x.Value, "SFC VIS 4 1/2");
+            Assert.AreEqual(x.ToString(), "SFC VIS 4 1/2");
+        }
+
+        [TestMethod]
+        [DataRow(_metar)]
+        public void Get_GwTornadic(string metar)
+        {
+            /* arrange */
+            Metarwiz m = Metarwiz.Parse(metar);
+
+            /* act */
+            GwTornadic x = m.Get<GwTornadic>();
+
+            /* assert */
+            Assert.IsNotNull(x);
+            Assert.AreEqual(x.Minutes, 13);
+            Assert.AreEqual(x.HasEnded, false);
+            Assert.AreEqual(x.Distance, 6);
+            Assert.AreEqual(x.Movement, "NE");
+            Assert.AreEqual(x.Activity, TornadicType.FUNNEL_CLOUD);
+            Assert.AreEqual(x.Value, "FUNNEL CLOUD B13 6 NE");
+            Assert.AreEqual(x.ToString(), "FUNNEL CLOUD B13 6 NE");
+        }
+
+        [TestMethod]
+        [DataRow(_metar)]
+        public void Get_GwVariableCeiling(string metar)
+        {
+            /* arrange */
+            Metarwiz m = Metarwiz.Parse(metar);
+
+            /* act */
+            GwVariableCeiling x = m.Get<GwVariableCeiling>();
+
+            /* assert */
+            Assert.IsNotNull(x);
+            Assert.AreEqual(x.From, 300);
+            Assert.AreEqual(x.To, 500);
+            Assert.AreEqual(x.Value, "CIG 003V005");
+            Assert.AreEqual(x.ToString(), "CIG 003V005");
+        }
+
+        [TestMethod]
+        [DataRow(_metar)]
+        public void Get_GwPeakWind(string metar)
+        {
+            /* arrange */
+            Metarwiz m = Metarwiz.Parse(metar);
+
+            /* act */
+            GwPeakWind x = m.Get<GwPeakWind>();
+
+            /* assert */
+            Assert.IsNotNull(x);
+            Assert.AreEqual(x.Direction, 290);
+            Assert.AreEqual(x.Speed, 24);
+            Assert.AreEqual(x.Time, new TimeSpan(18, 53, 00));
+            Assert.AreEqual(x.Value, "PK WND 29024/1853");
+            Assert.AreEqual(x.ToString(), "PK WND 29024/1853");
         }
 
         [TestMethod]

@@ -6,7 +6,7 @@ namespace ZippyNeuron.Metarwiz.Parser
     {
         IEnumerable<MetarParserItem> Items { get; }
 
-        IDictionary<int, IMetarItem> Parse();
+        IEnumerable<IMetarItem> Parse();
 
         MetarInfo MetarInfo { get; }
     }

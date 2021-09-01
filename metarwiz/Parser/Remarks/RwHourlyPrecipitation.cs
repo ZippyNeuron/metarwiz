@@ -1,26 +1,25 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace ZippyNeuron.Metarwiz.Parser.Remarks
 {
-    public class RwHourlyPrecipitation : RwMetarItem
+    public class RwHourlyPrecipitation : BaseMetarItem
     {
         private readonly string _p;
         private readonly decimal _units = 0.01m;
         private readonly int _amount;
 
-        public RwHourlyPrecipitation(int position, string value) : base(position, value, Pattern)
+        public RwHourlyPrecipitation(Match match)
         {
-            _p = Groups["P"].Value;
-            _ = int.TryParse(Groups["AMOUNT"].Value, out _amount);
+            _p = match.Groups["P"].Value;
+            _ = int.TryParse(match.Groups["AMOUNT"].Value, out _amount);
         }
 
         public bool IsTrace => _amount == 0;
 
         public decimal Inches => _amount * _units;
 
-        public static string Pattern => @"^(?<P>P)(?<AMOUNT>\d{4})$";
-
-        public static bool IsMatch(int position, string value) => Match(value, Pattern);
+        public static string Pattern => @"\ (?<P>P)(?<AMOUNT>\d{4})";
 
         public override string ToString()
         {

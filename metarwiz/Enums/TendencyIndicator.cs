@@ -12,5 +12,7 @@ namespace ZippyNeuron.Metarwiz.Enums
         N,
         [Description("Downward")]
         D,
+        [Description("Feet")]
+        FT,
     }
 }

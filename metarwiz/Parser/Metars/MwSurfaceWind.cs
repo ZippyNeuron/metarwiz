@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using ZippyNeuron.Metarwiz.Enums;
+using ZippyNeuron.Metarwiz.Extensions;
 
-namespace ZippyNeuron.Metarwiz.Parser.Metar
+namespace ZippyNeuron.Metarwiz.Parser.Metars
 {
-    public class MwSurfaceWind : MwMetarItem
+    public class MwSurfaceWind : BaseMetarItem
     {
         private readonly int _direction;
         private readonly int _gusting;
@@ -11,13 +13,13 @@ namespace ZippyNeuron.Metarwiz.Parser.Metar
         private readonly string _units;
         private readonly string _vrb;
 
-        public MwSurfaceWind(int position, string value) : base(position, value, Pattern)
+        public MwSurfaceWind(Match match)
         {
-            _vrb = Groups["VRB"].Value; ;
-            _ = int.TryParse(Groups["DIRECTION"].Value, out _direction);
-            _ = int.TryParse(Groups["GUSTING"].Value, out _gusting);
-            _ = int.TryParse(Groups["SPEED"].Value, out _speed);
-            _units = Groups["UNITS"].Value;
+            _vrb = match.Groups["VRB"].Value; ;
+            _ = int.TryParse(match.Groups["DIRECTION"].Value, out _direction);
+            _ = int.TryParse(match.Groups["GUSTING"].Value, out _gusting);
+            _ = int.TryParse(match.Groups["SPEED"].Value, out _speed);
+            _units = match.Groups["UNITS"].Value;
         }
 
         public int Direction => _direction;
@@ -33,11 +35,11 @@ namespace ZippyNeuron.Metarwiz.Parser.Metar
             _ => SpeedUnit.Unspecified
         };
 
+        public string UnitsDescription => Units.GetDescription();
+
         public bool IsVariable => _vrb == "VRB";
 
-        public static string Pattern => @"^((?<VRB>VRB)|(?<DIRECTION>\d{3}))(?<SPEED>\d{2})?(G(?<GUSTING>\d{2}))?(?<UNITS>MPS|KT)$";
-
-        public static bool IsMatch(int position, string value) => Match(value, Pattern);
+        public static string Pattern => @"\ ((?<VRB>VRB)|(?<DIRECTION>\d{3}))(?<SPEED>\d{2})?(G(?<GUSTING>\d{2}))?(?<UNITS>MPS|KT)";
 
         public override string ToString()
         {
