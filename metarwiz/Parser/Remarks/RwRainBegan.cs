@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace ZippyNeuron.Metarwiz.Parser.Remarks
 {
-    public class RwRainBegan : RwMetarItem
+    public class RwRainBegan : BaseMetarItem
     {
         private readonly string _rab;
         private readonly string _minutepastthehour;
@@ -10,11 +11,11 @@ namespace ZippyNeuron.Metarwiz.Parser.Remarks
         private readonly TimeSpan? _time;
         private readonly int? _minutes;
 
-        public RwRainBegan(int position, string value) : base(position, value, Pattern)
+        public RwRainBegan(Match match)
         {
-            _rab = Groups["RAB"].Value;
-            _minutepastthehour = Groups["MINUTEPASTTHEHOUR"].Value;
-            _exacttime = Groups["EXACTTIME"].Value;
+            _rab = match.Groups["RAB"].Value;
+            _minutepastthehour = match.Groups["MINUTEPASTTHEHOUR"].Value;
+            _exacttime = match.Groups["EXACTTIME"].Value;
             _time = !String.IsNullOrEmpty(_exacttime) ? TimeSpan.ParseExact(_exacttime, "hhmm", null) : null;
             _minutes = !String.IsNullOrEmpty(_minutepastthehour) ? int.Parse(_minutepastthehour) : null;
         }
@@ -23,9 +24,7 @@ namespace ZippyNeuron.Metarwiz.Parser.Remarks
 
         public int? Minutes => _minutes;
 
-        public static string Pattern => @"^(?<RAB>RAB)((?<MINUTEPASTTHEHOUR>\d{2})|(?<EXACTTIME>\d{4}))$";
-
-        public static bool IsMatch(int position, string value) => Match(value, Pattern);
+        public static string Pattern => @"\ (?<RAB>RAB)((?<EXACTTIME>\d{4})|(?<MINUTEPASTTHEHOUR>\d{2}))";
 
         public override string ToString()
         {

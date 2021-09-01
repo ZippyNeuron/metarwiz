@@ -1,59 +1,80 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace ZippyNeuron.Metarwiz.Parser
 {
     internal class MetarParser : IMetarParser
     {
+        private readonly List<MetarParserItem> _items = new();
+        private readonly MetarInfo _metarInfo;
+
         public MetarParser(string metar) : this(metar, null) { }
 
         public MetarParser(string metar, string tag)
         {
-            MetarInfo = new(metar, tag);
+            _metarInfo = new(metar, tag);
 
-            string[] items = Regex
-                .Split(metar, @"(CIG \d{3}V\d{3}(\ |))|(\S+(\ |))", RegexOptions.None)
-                .Where((item) => !string.IsNullOrEmpty(item.Trim()))
-                .Select(item => item.Trim())
-                .ToArray();
+            Regex.CacheSize = 128;
 
-            int rmk = items
-                .Select((item, index) =>
-                {
-                    return (item == "RMK") ? index : -1;
-                })
-                .Where(i => i > 0)
-                .FirstOrDefault();
-
-            Items = items
-                .Select(
-                    (item, index) =>
-                    {
-                        return new MetarParserItem(index, item, (rmk == 0 || index < rmk) ? MetarParserItemType.Metar : MetarParserItemType.Remark);
-                    }
-            );
+            ParseTypes(MetarParserItemType.Metar, _metarInfo.Metar, MetarParserItemTypes.MetarGroup);
+            ParseTypes(MetarParserItemType.Remark, _metarInfo.Remarks, MetarParserItemTypes.RemarksGroup);
         }
 
-        public MetarInfo MetarInfo { get; }
+        public MetarInfo MetarInfo => _metarInfo;
 
-        public IEnumerable<MetarParserItem> Items { get; }
+        public IEnumerable<MetarParserItem> Items => _items;
 
-        public IDictionary<int, IMetarItem> Parse()
+        public IEnumerable<IMetarItem> Parse()
         {
-            IDictionary<int, IMetarItem> items = new Dictionary<int, IMetarItem>();
+            return _items
+                .OrderBy(i => i.Index)
+                .Select((value, index) => { value.Item.Position = index; return value.Item; })
+                .Cast<IMetarItem>()
+                .ToList();
+        }
 
-            MetarParserFactory factory = new();
+        private void ParseTypes(MetarParserItemType type, string metar, IEnumerable<Type> types)
+        {
+            string metarCopy = metar;
 
-            foreach (MetarParserItem item in Items)
+            foreach (Type t in types)
             {
-                IMetarItem i = factory.Create(item);
+                string pattern = (string)t
+                    .GetProperty("Pattern", BindingFlags.Static | BindingFlags.Public)
+                    .GetValue(null, null);
 
-                if (i != null)
-                    items.Add(i.Position, i);
+                MatchCollection mc = Regex.Matches(metarCopy, pattern, RegexOptions.None);
+
+                if (mc.Count > 0)
+                {
+                    foreach (Match m in mc)
+                    {
+                        try
+                        {
+                            BaseMetarItem metarItem = MetarParserFactory.Create(t, m);
+
+                            MetarParserItem mpi = new()
+                            {
+                                Index = _metarInfo.Original.IndexOf(metarItem.ToString()),
+                                Item = metarItem,
+                                Type = type
+                            };
+
+                            _items.Add(mpi);
+
+                            metarCopy = metarCopy.Remove(metarCopy.IndexOf(metarItem.ToString()), mpi.Item.ToString().Length);
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine(ex.Message);
+                        }
+                    }
+                }
             }
-
-            return items;
         }
     }
 }

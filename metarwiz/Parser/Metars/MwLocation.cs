@@ -1,19 +1,19 @@
-﻿namespace ZippyNeuron.Metarwiz.Parser.Metars
+﻿using System.Text.RegularExpressions;
+
+namespace ZippyNeuron.Metarwiz.Parser.Metars
 {
-    public class MwLocation : MwMetarItem
+    public class MwLocation : BaseMetarItem
     {
         private readonly string _icao;
 
-        public MwLocation(int position, string value) : base(position, value, Pattern)
+        public MwLocation(Match match)
         {
-            _icao = Groups["ICAO"].Value;
+            _icao = match.Groups["ICAO"].Value;
         }
 
         public string ICAO => _icao;
 
-        public static string Pattern => @"^(?<ICAO>[A-Z]{4})$";
-
-        public static bool IsMatch(int position, string value) => position == 1 && Match(value, Pattern);
+        public static string Pattern => @"^METAR\ (?<ICAO>[A-Z]{4})";
 
         public override string ToString()
         {

@@ -1,28 +1,27 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
-namespace ZippyNeuron.Metarwiz.Parser.Remarks
+namespace ZippyNeuron.Metarwiz.Parser.Groups
 {
-    public class RwVariableCeiling : RwMetarItem
+    public class GwVariableCeiling : BaseMetarItem
     {
         private const int _multiplier = 100;
         private readonly string _cig;
         private readonly int _from;
         private readonly int _to;
 
-        public RwVariableCeiling(int position, string value) : base(position, value, Pattern)
+        public GwVariableCeiling(Match match)
         {
-            _cig = Groups["CIG"].Value;
-            _ = int.TryParse(Groups["FROM"].Value, out _from);
-            _ = int.TryParse(Groups["TO"].Value, out _to);
+            _cig = match.Groups["CIG"].Value;
+            _ = int.TryParse(match.Groups["FROM"].Value, out _from);
+            _ = int.TryParse(match.Groups["TO"].Value, out _to);
         }
 
         public int From => _from * _multiplier;
 
         public int To => _to * _multiplier;
 
-        public static string Pattern => @"^(?<CIG>CIG)\ (?<FROM>\d{3})V(?<TO>\d{3})$";
-
-        public static bool IsMatch(int position, string value) => Match(value, Pattern);
+        public static string Pattern => @"\ (?<CIG>CIG)\ (?<FROM>\d{3})V(?<TO>\d{3})";
 
         public override string ToString()
         {

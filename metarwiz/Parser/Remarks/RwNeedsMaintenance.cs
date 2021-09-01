@@ -1,17 +1,17 @@
-﻿namespace ZippyNeuron.Metarwiz.Parser.Remarks
+﻿using System.Text.RegularExpressions;
+
+namespace ZippyNeuron.Metarwiz.Parser.Remarks
 {
-    public class RwNeedsMaintenance : RwMetarItem
+    public class RwNeedsMaintenance : BaseMetarItem
     {
         private readonly string _maintenance;
 
-        public RwNeedsMaintenance(int position, string value) : base(position, value, Pattern)
+        public RwNeedsMaintenance(Match match)
         {
-            _maintenance = Groups["MAINTENANCE"].Value;
+            _maintenance = match.Groups["MAINTENANCE"].Value;
         }
 
-        public static string Pattern => @"^(?<MAINTENANCE>\$)$";
-
-        public static bool IsMatch(int position, string value) => Match(value, Pattern);
+        public static string Pattern => @"\ (?<MAINTENANCE>\$)";
 
         public override string ToString()
         {

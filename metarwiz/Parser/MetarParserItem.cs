@@ -2,17 +2,12 @@
 {
     public class MetarParserItem
     {
-        public MetarParserItem(int position, string item, MetarParserItemType type)
-        {
-            Position = position;
-            Value = item;
-            Type = type;
-        }
+        public MetarParserItem() { }
 
-        public int Position { get; }
+        public int Index { get; set; }
 
-        public string Value { get; }
+        public BaseMetarItem Item { get; set; }
 
-        public MetarParserItemType Type { get; }
+        public MetarParserItemType Type { get; set;  }
     }
 }

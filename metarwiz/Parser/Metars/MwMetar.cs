@@ -1,17 +1,17 @@
-﻿namespace ZippyNeuron.Metarwiz.Parser.Metars
+﻿using System.Text.RegularExpressions;
+
+namespace ZippyNeuron.Metarwiz.Parser.Metars
 {
-    public class MwMetar : MwMetarItem
+    public class MwMetar : BaseMetarItem
     {
         private readonly string _metar;
 
-        public MwMetar(int position, string value) : base(position, value, Pattern)
+        public MwMetar(Match match)
         {
-            _metar = Groups["METAR"].Value;
+            _metar = match.Groups["METAR"].Value;
         }
 
-        public static string Pattern => @"^(?<METAR>METAR)$";
-
-        public static bool IsMatch(int position, string value) => position == 0 && Match(value, Pattern);
+        public static string Pattern => @"^(?<METAR>METAR)";
 
         public override string ToString()
         {

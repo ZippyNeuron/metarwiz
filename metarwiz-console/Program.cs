@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ZippyNeuron.Metarwiz;
+using ZippyNeuron.Metarwiz.Parser.Groups;
 using ZippyNeuron.Metarwiz.Parser.Metars;
 using ZippyNeuron.Metarwiz.Parser.Remarks;
 
@@ -73,9 +74,13 @@ namespace metarwiz_console
             if (pt != null)
                 Out("Pressure Tendency", $"{pt.TypeDescription} - hPa {pt.HPa} inHg {pt.InHg}");
 
-            RwVariableCeiling v = mw.Get<RwVariableCeiling>();
+            GwVariableCeiling v = mw.Get<GwVariableCeiling>();
             if (v != null)
                 Out("Variable Ceiling", $"From {v.From} To {v.To}");
+
+            GwSurfaceTowerVisibility sv = mw.Get<GwSurfaceTowerVisibility>();
+            if (sv != null)
+                Out("Surface Visibility", $"{sv.Distance}");
         }
 
         private static void Out(string label, string value)

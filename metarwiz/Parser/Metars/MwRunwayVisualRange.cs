@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using ZippyNeuron.Metarwiz.Enums;
 using ZippyNeuron.Metarwiz.Extensions;
 
 namespace ZippyNeuron.Metarwiz.Parser.Metars
 {
-    public class MwRunwayVisualRange : MwMetarItem
+    public class MwRunwayVisualRange : BaseMetarItem
     {
         private readonly int _runway;
         private readonly string _designator;
@@ -12,13 +13,13 @@ namespace ZippyNeuron.Metarwiz.Parser.Metars
         private readonly int _range;
         private readonly string _tendency;
 
-        public MwRunwayVisualRange(int position, string value) : base(position, value, Pattern)
+        public MwRunwayVisualRange(Match match)
         {
-            _designator = Groups["DESIGNATOR"].Value;
-            _observation = Groups["OBSERVATION"].Value;
-            _tendency = Groups["TENDENCY"].Value;
-            _ = int.TryParse(Groups["RUNWAY"].Value, out _runway);
-            _ = int.TryParse(Groups["RANGE"].Value, out _range);
+            _designator = match.Groups["DESIGNATOR"].Value;
+            _observation = match.Groups["OBSERVATION"].Value;
+            _tendency = match.Groups["TENDENCY"].Value;
+            _ = int.TryParse(match.Groups["RUNWAY"].Value, out _runway);
+            _ = int.TryParse(match.Groups["RANGE"].Value, out _range);
         }
 
         public int Runway => _runway;
@@ -55,9 +56,7 @@ namespace ZippyNeuron.Metarwiz.Parser.Metars
 
         public string TendencyDescription => Tendency.GetDescription();
 
-        public static string Pattern => @"^R(?<RUNWAY>\d+)?(?<DESIGNATOR>[A-Z]{1})?\/?(?<OBSERVATION>P|M)?(?<RANGE>\d+)(?<TENDENCY>U|D|N|FT)$";
-
-        public static bool IsMatch(int position, string value) => Match(value, Pattern);
+        public static string Pattern => @"\ R(?<RUNWAY>\d+)?(?<DESIGNATOR>[A-Z]{1})?\/?(?<OBSERVATION>P|M)?(?<RANGE>\d+)(?<TENDENCY>U|D|N|FT)";
 
         public override string ToString()
         {

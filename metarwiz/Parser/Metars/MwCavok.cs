@@ -1,17 +1,17 @@
-﻿namespace ZippyNeuron.Metarwiz.Parser.Metars
+﻿using System.Text.RegularExpressions;
+
+namespace ZippyNeuron.Metarwiz.Parser.Metars
 {
-    public class MwCavok : MwMetarItem
+    public class MwCavok : BaseMetarItem
     {
         private readonly string _cavok;
 
-        public MwCavok(int position, string value) : base(position, value, Pattern)
+        public MwCavok(Match match)
         {
-            _cavok = Groups["CAVOK"].Value;
+            _cavok = match.Groups["CAVOK"].Value;
         }
 
-        public static string Pattern => @"^(?<CAVOK>CAVOK)$";
-
-        public static bool IsMatch(int position, string value) => Match(value, Pattern);
+        public static string Pattern => @"\ (?<CAVOK>CAVOK)";
 
         public override string ToString()
         {

@@ -1,25 +1,24 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace ZippyNeuron.Metarwiz.Parser.Metars
 {
-    public class MwWindVariation : MwMetarItem
+    public class MwWindVariation : BaseMetarItem
     {
         private readonly int _from;
         private readonly int _to;
 
-        public MwWindVariation(int position, string value) : base(position, value, Pattern)
+        public MwWindVariation(Match match)
         {
-            _ = int.TryParse(Groups["FROM"].Value, out _from);
-            _ = int.TryParse(Groups["TO"].Value, out _to);
+            _ = int.TryParse(match.Groups["FROM"].Value, out _from);
+            _ = int.TryParse(match.Groups["TO"].Value, out _to);
         }
 
         public int From => _from;
 
         public int To => _to;
 
-        public static string Pattern => @"^(?<FROM>\d{3})V(?<TO>\d{3})$";
-
-        public static bool IsMatch(int position, string value) => Match(value, Pattern);
+        public static string Pattern => @"\ (?<FROM>\d{3})V(?<TO>\d{3})";
 
         public override string ToString()
         {

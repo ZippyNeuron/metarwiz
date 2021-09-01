@@ -4,6 +4,6 @@
     {
         int Position { get; set; }
 
-        string Value { get; set; }
+        string Value { get; }
     }
 }

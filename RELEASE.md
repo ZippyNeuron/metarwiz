@@ -1,11 +1,14 @@
 # Release Notes
 
 ## 1.5.0
+* A major overhaul of the parser due to the expressive and verbose nature of the North American METAR
 * Added a console application to the GitHub repository to better demonstrate the Metarwiz class library
 * Any class property that returns an Enum type now has a corresponding description property
 * Implemented RAE (Rain Ending) and RAB (Rain Beginning)
-* Implemented CIG Group (Variable Ceiling)
+* Implemented CIG (Variable Ceiling)
+* Implemented SFC VIS and TWR VIS (Surface and Tower Visibility)
 * Extended the TendencyIndicator to include FT in RVR observations
+* Added a new Metarwiz constructor so that a tag can be specified
 * Some minor refactoring and code reorganisation
 
 ## 1.4.0

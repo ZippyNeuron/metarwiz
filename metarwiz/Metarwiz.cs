@@ -8,25 +8,24 @@ namespace ZippyNeuron.Metarwiz
 {
     public class Metarwiz : IMetarwiz
     {
-        private IDictionary<int, IMetarItem> _metarItems;
+        private IEnumerable<IMetarItem> _metarItems;
         private IMetarParser _metarParser;
 
         public Metarwiz() { }
 
         public Metarwiz(string metar) => Parse(metar, null);
 
+        public Metarwiz(string metar, string tag) => Parse(metar, tag);
+
         public MetarInfo Metar => _metarParser.MetarInfo;
 
         public T Get<T>() where T : IMetarItem => _metarItems
-                .Where(i => i.Value.GetType() == typeof(T))
-                .Select(i => i.Value)
+                .Where(i => i.GetType() == typeof(T))
                 .Cast<T>()
-                .ToList()
                 .FirstOrDefault();
 
         public IEnumerable<T> GetMany<T>() where T : IMetarItem => _metarItems
-                .Where(i => i.Value.GetType() == typeof(T))
-                .Select(i => i.Value)
+                .Where(i => i.GetType() == typeof(T))
                 .Cast<T>()
                 .ToList();
 
@@ -39,6 +38,7 @@ namespace ZippyNeuron.Metarwiz
                 throw new Exception("The report should start with the METAR header.");
 
             _metarParser = new MetarParser(metar, tag);
+
             _metarItems = _metarParser.Parse();
         }
 
@@ -48,7 +48,7 @@ namespace ZippyNeuron.Metarwiz
         {
             StringBuilder builder = new();
 
-            foreach (IMetarItem item in _metarItems.Values)
+            foreach (IMetarItem item in _metarItems)
                 builder.Append($"{((item.Position > 0) ? " " : String.Empty)}{item}");
 
             return $"{builder.ToString().Trim()}{_metarParser.MetarInfo.Terminator}";

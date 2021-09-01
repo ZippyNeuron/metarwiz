@@ -1,17 +1,17 @@
-﻿namespace ZippyNeuron.Metarwiz.Parser.Metars
+﻿using System.Text.RegularExpressions;
+
+namespace ZippyNeuron.Metarwiz.Parser.Metars
 {
-    public class MwTempo : MwMetarItem
+    public class MwTempo : BaseMetarItem
     {
         private readonly string _tempo;
 
-        public MwTempo(int position, string value) : base(position, value, Pattern)
+        public MwTempo(Match match)
         {
-            _tempo = Groups["TEMPO"].Value;
+            _tempo = match.Groups["TEMPO"].Value;
         }
 
-        public static string Pattern => @"^(?<TEMPO>TEMPO)$";
-
-        public static bool IsMatch(int position, string value) => Match(value, Pattern);
+        public static string Pattern => @"\ (?<TEMPO>TEMPO)";
 
         public override string ToString()
         {

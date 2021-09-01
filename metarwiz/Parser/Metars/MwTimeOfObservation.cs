@@ -1,18 +1,19 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace ZippyNeuron.Metarwiz.Parser.Metars
 {
-    public class MwTimeOfObservation : MwMetarItem
+    public class MwTimeOfObservation : BaseMetarItem
     {
         private readonly int _day;
         private readonly int _hour;
         private readonly int _minute;
         
-        public MwTimeOfObservation(int position, string value) : base(position, value, Pattern)
+        public MwTimeOfObservation(Match match)
         {
-            _ = int.TryParse(Groups["DAY"].Value, out _day);
-            _ = int.TryParse(Groups["HOUR"].Value, out _hour);
-            _ = int.TryParse(Groups["MINUTE"].Value, out _minute);
+            _ = int.TryParse(match.Groups["DAY"].Value, out _day);
+            _ = int.TryParse(match.Groups["HOUR"].Value, out _hour);
+            _ = int.TryParse(match.Groups["MINUTE"].Value, out _minute);
         }
 
         public int Day => _day;
@@ -21,9 +22,7 @@ namespace ZippyNeuron.Metarwiz.Parser.Metars
 
         public int Minute => _minute;
 
-        public static string Pattern => @"^(?<DAY>\d{2})(?<HOUR>\d{2})(?<MINUTE>\d{2})([Z])$";
-
-        public static bool IsMatch(int position, string value) => Match(value, Pattern);
+        public static string Pattern => @"\ (?<DAY>\d{2})(?<HOUR>\d{2})(?<MINUTE>\d{2})([Z])";
 
         public override string ToString()
         {

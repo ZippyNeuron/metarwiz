@@ -1,23 +1,22 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace ZippyNeuron.Metarwiz.Parser.Metars
 {
-    public class MwStatuteMiles : MwMetarItem
+    public class MwStatuteMiles : BaseMetarItem
     {
         private readonly string _sm;
         private readonly int _distance;
 
-        public MwStatuteMiles(int position, string value) : base(position, value, Pattern)
+        public MwStatuteMiles(Match match)
         {
-            _sm = Groups["SM"].Value;
-            _ = int.TryParse(Groups["DISTANCE"].Value, out _distance);
+            _sm = match.Groups["SM"].Value;
+            _ = int.TryParse(match.Groups["DISTANCE"].Value, out _distance);
         }
 
         public int Distance => _distance;
 
-        public static string Pattern => @"^(?<DISTANCE>\S+)(?<SM>SM)$";
-
-        public static bool IsMatch(int position, string value) => Match(value, Pattern);
+        public static string Pattern => @"\ (?<DISTANCE>\S+)(?<SM>SM)";
 
         public override string ToString()
         {

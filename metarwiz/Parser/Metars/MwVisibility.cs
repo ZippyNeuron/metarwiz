@@ -1,23 +1,22 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace ZippyNeuron.Metarwiz.Parser.Metars
 {
-    public class MwVisibility : MwMetarItem
+    public class MwVisibility : BaseMetarItem
     {
         private readonly int _distance;
 
-        public MwVisibility(int position, string value) : base(position, value, Pattern)
+        public MwVisibility(Match match)
         {
-            _ = int.TryParse(Groups["DISTANCE"].Value, out _distance);
+            _ = int.TryParse(match.Groups["DISTANCE"].Value, out _distance);
         }
 
         public int Distance => _distance;
 
         public bool IsMoreThanTenKilometres => _distance >= 9999;
 
-        public static string Pattern => @"^(?<DISTANCE>\d{4})$";
-
-        public static bool IsMatch(int position, string value) => Match(value, Pattern);
+        public static string Pattern => @"\ (?<DISTANCE>\d{4})";
 
         public override string ToString()
         {
