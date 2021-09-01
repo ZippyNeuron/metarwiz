@@ -11,7 +11,7 @@ namespace metarwiz_console
     {
         static void Main(string[] args)
         {
-            string metar = (args.Length > 0) ? String.Join(" ", args) : "METAR KATL 281152Z 11004KT 1SM R09R/P6000FT BR BKN004 24/23 A3020 RMK AO2 SFC VIS 4 SLP215 VIS N-E 1 1/2 CIG 003V005 TWRINC T02390228 10250 20239 53012";
+            string metar = (args.Length > 0) ? String.Join(" ", args) : "METAR KATL 281152Z 11004KT 1SM R09R/P6000FT BR BKN004 24/23 A3020 RMK AO2 SFC VIS 4 SLP215 VIS N-E 1 1/2 CIG 003V005 TWRINC PK WND 27212/1735 FUNNEL CLOUD B13 6 NE T02390228 10250 20239 53012";
 
             IMetarwiz mw = new Metarwiz(metar);
 
@@ -81,6 +81,14 @@ namespace metarwiz_console
             GwSurfaceTowerVisibility sv = mw.Get<GwSurfaceTowerVisibility>();
             if (sv != null)
                 Out("Surface Visibility", $"{sv.Distance}");
+
+            GwPeakWind pw = mw.Get<GwPeakWind>();
+            if (pw != null)
+                Out("Peak Wind", $"Direction {pw.Direction} degrees. Speed {pw.Speed} knots at {pw.Time}");
+
+            GwTornadic tor = mw.Get<GwTornadic>();
+            if (tor != null)
+                Out("Tornadic Observation", $"{tor.ActivityDescription} at {tor.Distance} statute miles, heading {tor.Movement}");
         }
 
         private static void Out(string label, string value)
