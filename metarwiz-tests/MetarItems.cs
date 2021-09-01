@@ -12,7 +12,7 @@ namespace metarwiz.tests
     [TestClass]
     public class MetarItems
     {
-        public const string _metar = @"METAR EGLC 221850Z R24R/M1200D 10SM TEMPO AUTO VCTS 29005G26KT NOSIG 250V320 CAVOK BKN012 FEW036 -VCSN +RA -TSRA VCFG 9999 NCD M19/16 SM01 Q1022 RESHSN 7649//93 RMK SFC VIS 4 1/2 AO2 FUNNEL CLOUD B13 6 NE CIG 003V005 SLP093 P0003 PK WND 29024/1853 60009 70009 T10640036 11066 21012 58033 $";
+        public const string _metar = @"METAR EGLC 221850Z R24R/M1200D 10SM TEMPO AUTO VCTS 29005G26KT NOSIG 250V320 CAVOK BKN012 FEW036 -VCSN +RA -TSRA VCFG 9999 NCD M19/16 SM01 Q1022 RESHSN 7649//93 RMK SFC VIS 4 1/2 AO2 FUNNEL CLOUD B13 6 NE CIG 003V005 SLP093 WSHFT 12 FROPA P0003 PK WND 29024/1853 60009 70009 T10640036 11066 21012 58033 $";
 
         [TestMethod]
         [DataRow(_metar)]
@@ -705,6 +705,25 @@ namespace metarwiz.tests
             Assert.AreEqual(x.Time, new TimeSpan(18, 53, 00));
             Assert.AreEqual(x.Value, "PK WND 29024/1853");
             Assert.AreEqual(x.ToString(), "PK WND 29024/1853");
+        }
+
+        [TestMethod]
+        [DataRow(_metar)]
+        public void Get_GwWindShift(string metar)
+        {
+            /* arrange */
+            Metarwiz m = Metarwiz.Parse(metar);
+
+            /* act */
+            GwWindShift x = m.Get<GwWindShift>();
+
+            /* assert */
+            Assert.IsNotNull(x);
+            Assert.AreEqual(x.Minutes, 12);
+            Assert.AreEqual(x.Time, null);
+            Assert.AreEqual(x.IsFrontalPassage, true);
+            Assert.AreEqual(x.Value, "WSHFT 12 FROPA");
+            Assert.AreEqual(x.ToString(), "WSHFT 12 FROPA");
         }
 
         [TestMethod]
