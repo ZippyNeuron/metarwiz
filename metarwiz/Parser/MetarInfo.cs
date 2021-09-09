@@ -30,9 +30,9 @@ namespace ZippyNeuron.Metarwiz.Parser
 
         public bool HasRemarks => !String.IsNullOrEmpty(Remarks);
 
-        public string ToString(bool remarks = false)
+        public override string ToString()
         {
-            return $"{Metar}{((remarks && HasRemarks) ? String.Concat(" ", Remarks) : String.Empty)}{Terminator}";
+            return $"{Metar}{((HasRemarks) ? String.Concat(" ", Remarks) : String.Empty)}{Terminator}";
         }
 
         private string RemoveTerminator(string metar)

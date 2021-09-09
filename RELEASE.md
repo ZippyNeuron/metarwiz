@@ -1,4 +1,7 @@
 # Release Notes
+## 1.5.1
+* Implemented WSHFT (Wind Shift)
+* Fixed a bug in PK WND (Peak Wind)
 
 ## 1.5.0
 * A major overhaul of the parser due to the expressive and verbose nature of the North American METAR
