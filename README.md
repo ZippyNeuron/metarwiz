@@ -1,5 +1,5 @@
 # **Metarwiz** | [![](https://img.shields.io/nuget/v/ZippyNeuron.Metarwiz.svg?style=flat-square&logo=appveyor&color=238636)](https://www.nuget.org/packages/ZippyNeuron.Metarwiz)
-Is a simple class library can be used to parse and visualise METAR reports.
+Is a simple class library that can be used to parse and visualise METAR reports (ICAO and North American).
 
 The **metarwiz** project contains the library that delivers all the parsing functionality.
 

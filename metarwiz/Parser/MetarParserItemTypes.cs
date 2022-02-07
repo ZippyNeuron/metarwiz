@@ -40,6 +40,7 @@ namespace ZippyNeuron.Metarwiz.Parser
             typeof(GwTornadic),
             typeof(GwVariableCeiling),
             typeof(GwPeakWind),
+            typeof(GwWindShift),
 
             typeof(RwAutomatedStation),
             typeof(RwHourlyPrecipitation),
