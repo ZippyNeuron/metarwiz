@@ -1,5 +1,9 @@
 # Release Notes
 
+## 1.6.0
+* Updated the package information
+* Added NuGet.org icon to project
+
 ## 1.5.0
 * A major overhaul of the parser due to the expressive and verbose nature of the North American METAR
 * The overhaul of the parser has seen a 75-100x increase in performance
