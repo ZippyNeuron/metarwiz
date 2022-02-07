@@ -1,4 +1,9 @@
 # Release Notes
+
+## 1.6.0
+* Updated package information
+* Added NuGet.org icon
+
 ## 1.5.1
 * Implemented WSHFT (Wind Shift)
 * Fixed a bug in PK WND (Peak Wind)
