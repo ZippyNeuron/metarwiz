@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageId>ZippyNeuron.Metarwiz</PackageId>
+    <Authors>Andy</Authors>
+    <Company>ZippyNeuron</Company>
+    <Product>Metarwiz</Product>
+    <RootNamespace>ZippyNeuron.Metarwiz</RootNamespace>
+    <AssemblyName>ZippyNeuron.Metarwiz</AssemblyName>
+    <PackageProjectUrl>https://github.com/zippyneuron/metarwiz</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/zippyneuron/metarwiz</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <Version>1.6.0</Version>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Metarwiz.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>false</DelaySign>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <Description>This simple class library can be used to parse and visualise METAR reports. Supports ICAO and North American versions.</Description>
+    <Copyright>ZippyNeuron</Copyright>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageTags>parser tools flight simulation pilot metar report aviation weather terminal aerodrome forecast station meteorological icao north american zippy neuron</PackageTags>
+    <PackageIcon>nuget-org.png</PackageIcon>
+    <PackageIconUrl />
+    <PackageReleaseNotes>https://github.com/zippyneuron/metarwiz</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="nuget-org.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
