@@ -27,16 +27,6 @@
     <PackageReleaseNotes>https://github.com/zippyneuron/metarwiz</PackageReleaseNotes>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile></DocumentationFile>
-    <Optimize>false</Optimize>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Enums\WeatherCharacteristicType.cs" />
-    <Compile Remove="Parser\Metars\MwVacinityThunderstorm.cs" />
-  </ItemGroup>
-
   <ItemGroup>
     <None Include="..\LICENSE">
       <Pack>True</Pack>
