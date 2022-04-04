@@ -8,41 +8,56 @@ namespace ZippyNeuron.Metarwiz.Parser.Metars
     public class MwCloud : BaseMetarItem
     {
         private const int _multiplier = 100;
-        private readonly string _descriptor;
-        private readonly int _altitude;
+        private readonly int _aboveGroundLevel;
+        private readonly Cloud _cloud;
         private readonly CloudType _cloudType;
+        private readonly string _altitudeOriginal;
+        private readonly string _cloudOriginal;
+        private readonly string _cloudTypeOriginal;
 
         public MwCloud(Match match)
         {
-            _ = int.TryParse(match.Groups["ALTITUDE"].Value, out _altitude);
-            _ = Enum.TryParse(match.Groups["CLOUD"].Value, out _cloudType);
-            _descriptor = match.Groups["DESCRIPTOR"].Value;
+            _altitudeOriginal = match.Groups["ALTITUDE"].Value;
+            _cloudOriginal = match.Groups["CLOUD"].Value;
+            _cloudTypeOriginal = match.Groups["CLOUDTYPE"].Value;
+
+            if (!_altitudeOriginal.StartsWith("/"))
+                _ = int.TryParse(_altitudeOriginal, out _aboveGroundLevel);
+
+            if (!_cloudOriginal.StartsWith("/"))
+                _ = Enum.TryParse(_cloudOriginal, out _cloud);
+
+            if (!_cloudTypeOriginal.StartsWith("/"))
+                _ = Enum.TryParse(_cloudTypeOriginal, out _cloudType);
         }
 
-        public int AboveGroundLevel => _altitude * _multiplier;
-
-        public CloudType Cloud => _cloudType;
-
+        public int AboveGroundLevel => _aboveGroundLevel * _multiplier;
+        public Cloud Cloud => _cloud;
+        public CloudType CloudType => _cloudType;
         public string CloudDescription => Cloud.GetDescription();
-
-        private static string GetPattern()
+        public string CloudTypeDescription => CloudType.GetDescription();
+        public static string Pattern
         {
-            string clouds = String
-                .Join("|", Enum.GetNames<CloudType>());
+            get
+            {
+                string clouds = String
+                    .Join("|", Enum.GetNames<Cloud>());
 
-            return $@"\ (?<CLOUD>\/\/\/|{clouds})(?<ALTITUDE>\d*|\/\/\/)(?<DESCRIPTOR>[A-Z]+|\/\/\/|)?";
+                string cloudTypes = String
+                    .Join("|", Enum.GetNames<CloudType>());
+
+                return @$"( )(?<CLOUD>///|{clouds})(?<ALTITUDE>\d+|//|///)?(?<CLOUDTYPE>{cloudTypes}|///)?";
+            }
         }
-
-        public static string Pattern => GetPattern();
 
         public override string ToString()
         {
-            string alt = (Cloud == CloudType.Unspecified) ? "///" : String.Format("{0:000}", _altitude);
+            string alt = (_altitudeOriginal.StartsWith("/") || String.IsNullOrEmpty(_altitudeOriginal)) ? _altitudeOriginal : _aboveGroundLevel.ToString("D3");
 
             return String.Concat(
-                (Cloud != CloudType.Unspecified) ? Enum.GetName(Cloud) : @"///",
-                (_altitude == 0) ? String.Empty : alt,
-                _descriptor
+                (_cloudOriginal.StartsWith("/") || _cloud == Cloud.Unspecified) ? _cloudOriginal : Enum.GetName(Cloud),
+                alt,
+                (_cloudTypeOriginal.StartsWith("/") || _cloudType == CloudType.Unspecified) ? _cloudTypeOriginal : Enum.GetName(CloudType)
             ); ;
         }
     }

@@ -12,7 +12,7 @@ namespace metarwiz.tests
     [TestClass]
     public class TXwMetars
     {
-        public const string _metar = @"METAR EGLC 221850Z R24R/M1200D 10SM TEMPO AUTO VCTS 29005G26KT NOSIG 250V320 CAVOK BKN012 FEW036 -VCSN +RA -TSRA VCFG 9999 NCD M19/16 SM01 Q1022 RESHSN 7649//93 RMK SFC VIS 4 1/2 AO2 FUNNEL CLOUD B13 6 NE CIG 003V005 SLP093 WSHFT 12 FROPA P0003 PK WND 29024/1853 60009 70009 T10640036 11066 21012 58033 $";
+        public const string _metar = @"METAR EGLC 221850Z R24R/M1200D 10SM AUTO VCTS 29005G26KT NOSIG 250V320 BKN012 FEW036 -VCSN +RA -TSRA VCFG 9999 NCD M19/16 SM01 Q1022 RESHSN 7649//93 RMK SFC VIS 4 1/2 AO2 FUNNEL CLOUD B13 6 NE CIG 003V005 SLP093 WSHFT 12 FROPA P0003 PK WND 29024/1853 60009 70009 T10640036 11066 21012 58033 $";
 
         [TestMethod]
         [DataRow(_metar)]
@@ -111,24 +111,8 @@ namespace metarwiz.tests
             /* assert */
             Assert.IsNotNull(x);
             Assert.IsFalse(x.IsNil);
-            Assert.IsTrue(x.IsAutomated);
+            Assert.IsTrue(x.IsAuto);
             Assert.AreEqual(x.ToString(), "AUTO");
-        }
-
-        [TestMethod]
-        [DataRow(_metar)]
-        public void Get_MwCavok(string metar)
-        {
-            /* arrange */
-            Metarwiz m = Metarwiz.Parse(metar);
-
-            /* act */
-            MwCavok x = m.Get<MwCavok>();
-
-            /* assert */
-            Assert.IsNotNull(x);
-            Assert.AreEqual(x.Value, "CAVOK");
-            Assert.AreEqual(x.ToString(), "CAVOK");
         }
 
         [TestMethod]
@@ -149,22 +133,6 @@ namespace metarwiz.tests
 
         [TestMethod]
         [DataRow(_metar)]
-        public void Get_MwTemporaryFluctuation(string metar)
-        {
-            /* arrange */
-            Metarwiz m = Metarwiz.Parse(metar);
-
-            /* act */
-            MwTempo x = m.Get<MwTempo>();
-
-            /* assert */
-            Assert.IsNotNull(x);
-            Assert.AreEqual(x.Value, "TEMPO");
-            Assert.AreEqual(x.ToString(), "TEMPO");
-        }
-
-        [TestMethod]
-        [DataRow(_metar)]
         public void Get_MwCloud(string metar)
         {
             /* arrange */
@@ -176,15 +144,15 @@ namespace metarwiz.tests
             /* assert */
             Assert.IsNotNull(x);
             Assert.AreEqual(x.Count, 3);
-            Assert.AreEqual(x[0].Cloud, CloudType.BKN);
+            Assert.AreEqual(x[0].Cloud, Cloud.BKN);
             Assert.AreEqual(x[0].AboveGroundLevel, 1200);
             Assert.AreEqual(x[0].Value, "BKN012");
             Assert.AreEqual(x[0].ToString(), "BKN012");
-            Assert.AreEqual(x[1].Cloud, CloudType.FEW);
+            Assert.AreEqual(x[1].Cloud, Cloud.FEW);
             Assert.AreEqual(x[1].AboveGroundLevel, 3600);
             Assert.AreEqual(x[1].Value, "FEW036");
             Assert.AreEqual(x[1].ToString(), "FEW036");
-            Assert.AreEqual(x[2].Cloud, CloudType.NCD);
+            Assert.AreEqual(x[2].Cloud, Cloud.NCD);
             Assert.AreEqual(x[2].AboveGroundLevel, 0);
             Assert.AreEqual(x[2].Value, "NCD");
             Assert.AreEqual(x[2].ToString(), "NCD");
@@ -258,33 +226,33 @@ namespace metarwiz.tests
             Assert.AreEqual(x.ToString(), "METAR");
         }
 
-        [TestMethod]
-        [DataRow(_metar)]
-        public void Get_MwRunwayStateGroup(string metar)
-        {
-            /* arrange */
-            Metarwiz m = Metarwiz.Parse(metar);
+        // [TestMethod]
+        // [DataRow(_metar)]
+        // public void Get_MwRunwayStateGroup(string metar)
+        // {
+        //     /* arrange */
+        //     Metarwiz m = Metarwiz.Parse(metar);
 
-            /* act */
-            MwRunwayStateGroup x = m.Get<MwRunwayStateGroup>();
+        //     /* act */
+        //     MwRunwayStateGroup x = m.Get<MwRunwayStateGroup>();
 
-            /* assert */
-            Assert.IsNotNull(x);
-            Assert.AreEqual(x.Bearing, 26);
-            Assert.AreEqual(x.Deposit, "Dry Snow");
-            Assert.AreEqual(x.Depth, 150);
-            Assert.AreEqual(x.Extent, "51% to 100%");
-            Assert.AreEqual(x.IsAllRunways, false);
-            Assert.AreEqual(x.IsLeft, false);
-            Assert.AreEqual(x.IsNoNewInformation, false);
-            Assert.AreEqual(x.IsNoSpecificRunway, false);
-            Assert.AreEqual(x.IsRight, true);
-            Assert.AreEqual(x.Operational, true);
-            Assert.AreEqual(x.Orientation, "R");
-            Assert.AreEqual(x.Runway, "26R");
-            Assert.AreEqual(x.Value, "7649//93");
-            Assert.AreEqual(x.ToString(), "7649//93");
-        }
+        //     /* assert */
+        //     Assert.IsNotNull(x);
+        //     Assert.AreEqual(x.Bearing, 26);
+        //     Assert.AreEqual(x.Deposit, "Dry Snow");
+        //     Assert.AreEqual(x.Depth, 150);
+        //     Assert.AreEqual(x.Extent, "51% to 100%");
+        //     Assert.AreEqual(x.IsAllRunways, false);
+        //     Assert.AreEqual(x.IsLeft, false);
+        //     Assert.AreEqual(x.IsNoNewInformation, false);
+        //     Assert.AreEqual(x.IsNoSpecificRunway, false);
+        //     Assert.AreEqual(x.IsRight, true);
+        //     Assert.AreEqual(x.Operational, true);
+        //     Assert.AreEqual(x.Orientation, "R");
+        //     Assert.AreEqual(x.Runway, "26R");
+        //     Assert.AreEqual(x.Value, "7649//93");
+        //     Assert.AreEqual(x.ToString(), "7649//93");
+        // }
 
         [TestMethod]
         [DataRow(_metar)]
@@ -309,29 +277,13 @@ namespace metarwiz.tests
 
         [TestMethod]
         [DataRow(_metar)]
-        public void Get_MwStatuteMiles(string metar)
-        {
-            /* arrange */
-            Metarwiz m = Metarwiz.Parse(metar);
-
-            /* act */
-            MwStatuteMiles x = m.Get<MwStatuteMiles>();
-
-            /* assert */
-            Assert.IsNotNull(x);
-            Assert.AreEqual(x.Distance, 10);
-            Assert.AreEqual(x.ToString(), "10SM");
-        }
-
-        [TestMethod]
-        [DataRow(_metar)]
         public void Get_MwSurfaceWind(string metar)
         {
             /* arrange */
             Metarwiz m = Metarwiz.Parse(metar);
 
             /* act */
-            MwSurfaceWind x = m.Get<MwSurfaceWind>();
+            MwSurfaceWindGroup x = m.Get<MwSurfaceWindGroup>();
 
             /* assert */
             Assert.IsNotNull(x);
@@ -389,14 +341,14 @@ namespace metarwiz.tests
             Metarwiz m = Metarwiz.Parse(metar);
 
             /* act */
-            MwVisibility x = m.Get<MwVisibility>();
+            MwVisibilityGroup x = m.Get<MwVisibilityGroup>();
 
             /* assert */
             Assert.IsNotNull(x);
-            Assert.AreEqual(x.IsMoreThanTenKilometres, true);
-            Assert.AreEqual(x.Distance, 9999);
-            Assert.AreEqual(x.Value, "9999");
-            Assert.AreEqual(x.ToString(), "9999");
+            Assert.AreEqual(x.IsMinimumVisibilityMoreThan10K, true);
+            Assert.AreEqual(x.MinimumVisibility, 16093);
+            Assert.AreEqual(x.Value, "10SM");
+            Assert.AreEqual(x.ToString(), "10SM");
         }
 
         [TestMethod]
@@ -446,24 +398,6 @@ namespace metarwiz.tests
 
         [TestMethod]
         [DataRow(_metar)]
-        public void Get_MwWindVariation(string metar)
-        {
-            /* arrange */
-            Metarwiz m = Metarwiz.Parse(metar);
-
-            /* act */
-            MwWindVariation x = m.Get<MwWindVariation>();
-            
-            /* assert */
-            Assert.IsNotNull(x);
-            Assert.AreEqual(x.From, 250);
-            Assert.AreEqual(x.To, 320);
-            Assert.AreEqual(x.Value, "250V320");
-            Assert.AreEqual(x.ToString(), "250V320");
-        }
-
-        [TestMethod]
-        [DataRow(_metar)]
         public void Get_RwAutomatedStation(string metar)
         {
             /* arrange */
@@ -474,7 +408,7 @@ namespace metarwiz.tests
 
             /* assert */
             Assert.IsNotNull(x);
-            Assert.IsTrue(x.HasRainSnowSensor);
+            Assert.IsTrue(x.HasPrecipitationDiscriminator);
             Assert.AreEqual(x.Value, "AO2");
             Assert.AreEqual(x.ToString(), "AO2");
         }
@@ -661,7 +595,7 @@ namespace metarwiz.tests
             Metarwiz m = Metarwiz.Parse(metar);
 
             /* act */
-            GwSurfaceTowerVisibility x = m.Get<GwSurfaceTowerVisibility>();
+            RwSurfaceTowerVisibilityGroup x = m.Get<RwSurfaceTowerVisibilityGroup>();
 
             /* assert */
             Assert.IsNotNull(x);
@@ -678,7 +612,7 @@ namespace metarwiz.tests
             Metarwiz m = Metarwiz.Parse(metar);
 
             /* act */
-            GwTornadic x = m.Get<GwTornadic>();
+            RwTornadicGroup x = m.Get<RwTornadicGroup>();
 
             /* assert */
             Assert.IsNotNull(x);
@@ -699,7 +633,7 @@ namespace metarwiz.tests
             Metarwiz m = Metarwiz.Parse(metar);
 
             /* act */
-            GwVariableCeiling x = m.Get<GwVariableCeiling>();
+            RwVariableCeilingGroup x = m.Get<RwVariableCeilingGroup>();
 
             /* assert */
             Assert.IsNotNull(x);
@@ -717,7 +651,7 @@ namespace metarwiz.tests
             Metarwiz m = Metarwiz.Parse(metar);
 
             /* act */
-            GwPeakWind x = m.Get<GwPeakWind>();
+            RwPeakWindGroup x = m.Get<RwPeakWindGroup>();
 
             /* assert */
             Assert.IsNotNull(x);
@@ -736,7 +670,7 @@ namespace metarwiz.tests
             Metarwiz m = Metarwiz.Parse(metar);
 
             /* act */
-            GwWindShift x = m.Get<GwWindShift>();
+            RwWindShiftGroup x = m.Get<RwWindShiftGroup>();
 
             /* assert */
             Assert.IsNotNull(x);

@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace ZippyNeuron.Metarwiz.Parser.Groups
 {
-    public class GwWindShift : BaseMetarItem
+    public class RwWindShiftGroup : BaseMetarItem
     {
         private readonly string _fropa;
         private readonly string _exacttime;
@@ -12,7 +12,7 @@ namespace ZippyNeuron.Metarwiz.Parser.Groups
         private readonly int? _minutes;
         private readonly string _wshft;
 
-        public GwWindShift(Match match)
+        public RwWindShiftGroup(Match match)
         {
             _wshft = match.Groups["WSHFT"].Value;
             _fropa = match.Groups["FROPA"].Value;
@@ -23,25 +23,24 @@ namespace ZippyNeuron.Metarwiz.Parser.Groups
         }
 
         public TimeSpan? Time => _time;
-
         public int? Minutes => _minutes;
-
         public bool IsFrontalPassage => !String.IsNullOrEmpty(_fropa);
 
-        public static string Pattern => GetPattern();
-
-        private static string GetPattern()
+        public static string Pattern
         {
-            return @"\ (?<WSHFT>WSHFT)\ ((?<EXACTTIME>\d{4})|(?<MINUTEPASTTHEHOUR>\d{2}))(\ (?<FROPA>FROPA))?";
+            get
+            {
+                return @"( )(?<WSHFT>WSHFT)\ ((?<EXACTTIME>\d{4})|(?<MINUTEPASTTHEHOUR>\d{2}))(\ (?<FROPA>FROPA))?";
+            }
         }
-        
+
         public override string ToString()
         {
             return
                 String.Concat(
                     _wshft,
                     " ",
-                    (_time != null) ? _time?.ToString("hhmm") : String.Format("{0:00}", _minutes),
+                    (_time != null) ? _time?.ToString("hhmm") : _minutes?.ToString("D2"),
                     (!String.IsNullOrEmpty(_fropa)) ? $" {_fropa}" : String.Empty
                 );
         }

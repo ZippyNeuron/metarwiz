@@ -21,29 +21,25 @@ namespace ZippyNeuron.Metarwiz.Parser.Metars
         }
 
         public bool IsInVacinity => _vacinity == "VC";
-
         public WeatherType WeatherPrimary => (!String.IsNullOrEmpty(_weather1)) ? Enum.Parse<WeatherType>(_weather1) : WeatherType.Unspecified;
-
         public WeatherType WeatherSecondary => (!String.IsNullOrEmpty(_weather2)) ? Enum.Parse<WeatherType>(_weather2) : WeatherType.Unspecified;
-
         public WeatherIntensityIndicator Intensity => _intensity switch
-            {
-                "-" => WeatherIntensityIndicator.Light,
-                "+" => WeatherIntensityIndicator.Heavy,
-                _ => WeatherIntensityIndicator.Moderate
-            };
-
-        public string IntensityDescription => Intensity.GetDescription();
-
-        private static string GetPattern()
         {
-            string weathers = String
-                .Join("|", Enum.GetNames<WeatherType>());
+            "-" => WeatherIntensityIndicator.Light,
+            "+" => WeatherIntensityIndicator.Heavy,
+            _ => WeatherIntensityIndicator.Moderate
+        };
+        public string IntensityDescription => Intensity.GetDescription();
+        public static string Pattern
+        {
+            get
+            {
+                string weathers = String
+                    .Join("|", Enum.GetNames<WeatherType>());
 
-            return $@"\ (?<INTENSITY>\-|\+|)(?<VACINITY>VC)?((?<WEATHER1>{weathers})(?<WEATHER2>{weathers})?)";
+                return @$"( )(?<INTENSITY>\-|\+|)(?<VACINITY>VC)?((?<WEATHER1>{weathers})(?<WEATHER2>{weathers})?)";
+            }
         }
-
-        public static string Pattern => GetPattern();
 
         public override string ToString()
         {

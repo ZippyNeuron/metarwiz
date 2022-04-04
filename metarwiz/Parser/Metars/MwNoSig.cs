@@ -11,7 +11,7 @@ namespace ZippyNeuron.Metarwiz.Parser.Metars
             _nosig = match.Groups["NOSIG"].Value;
         }
 
-        public static string Pattern => @"\ (?<NOSIG>NOSIG)";
+        public static string Pattern => @"( )(?<NOSIG>NOSIG)";
 
         public override string ToString()
         {

@@ -11,7 +11,7 @@ namespace ZippyNeuron.Metarwiz.Parser.Remarks
             _maintenance = match.Groups["MAINTENANCE"].Value;
         }
 
-        public static string Pattern => @"\ (?<MAINTENANCE>\$)";
+        public static string Pattern => @"( )(?<MAINTENANCE>\$)";
 
         public override string ToString()
         {

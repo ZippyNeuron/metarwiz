@@ -73,7 +73,7 @@ namespace metarwiz.tests
             Metarwiz m = new(_metar);
 
             /* act */
-            MwSurfaceWind o = m.Get<MwSurfaceWind>();
+            MwSurfaceWindGroup o = m.Get<MwSurfaceWindGroup>();
 
             /* assert */
             Assert.IsNotNull(o);
@@ -83,7 +83,7 @@ namespace metarwiz.tests
             Assert.IsFalse(o.IsVariable);
             Assert.AreEqual(SpeedUnit.KT, o.Units);
             Assert.AreEqual("Knots", o.UnitsDescription);
-            Assert.AreEqual("06007G22KT", o.Value);
+            Assert.AreEqual("06007G22KT 290V100", o.Value);
         }
 
         [TestMethod]
@@ -100,12 +100,12 @@ namespace metarwiz.tests
             Assert.AreEqual(2, o.Count);
 
             Assert.AreEqual(1800, o[0].AboveGroundLevel);
-            Assert.AreEqual(CloudType.BKN, o[0].Cloud);
+            Assert.AreEqual(Cloud.BKN, o[0].Cloud);
             Assert.AreEqual("Broken", o[0].CloudDescription);
             Assert.AreEqual("BKN018", o[0].Value);
 
             Assert.AreEqual(3300, o[1].AboveGroundLevel);
-            Assert.AreEqual(CloudType.OVC, o[1].Cloud);
+            Assert.AreEqual(Cloud.OVC, o[1].Cloud);
             Assert.AreEqual("Overcast", o[1].CloudDescription);
             Assert.AreEqual("OVC033", o[1].Value);
         }

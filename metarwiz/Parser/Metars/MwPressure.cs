@@ -19,11 +19,11 @@ namespace ZippyNeuron.Metarwiz.Parser.Metars
 
         public decimal InHg => Math.Round((_type == "A") ? (_amount / 100) : _amount * MetarConvert.hPaToinHg, 2);
 
-        public static string Pattern => @"\ (?<TYPE>Q|A)(?<AMOUNT>\d+)";
+        public static string Pattern => @"( )(?<TYPE>Q|A)(?<AMOUNT>\d+)";
 
         public override string ToString()
         {
-            return String.Concat(_type, String.Format("{0:0000}", _amount));
+            return $"{_type}{_amount.ToString("0")}";
         }
     }
 }

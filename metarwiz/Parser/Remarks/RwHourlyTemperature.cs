@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace ZippyNeuron.Metarwiz.Parser.Remarks
 {
@@ -22,20 +21,13 @@ namespace ZippyNeuron.Metarwiz.Parser.Remarks
         }
 
         public decimal Celsius => ((_minust == 1) ? _temperature * -1 : _temperature) * _units;
-
         public decimal DewPoint => ((_minusdp == 1) ? _dewpoint * -1 : _dewpoint) * _units;
 
-        public static string Pattern => @"\ (?<T>T)(?<MT>\d{1})(?<TEMPERATURE>\d{3})(?<MDP>\d{1})(?<DEWPOINT>\d{3})";
+        public static string Pattern => @"( )(?<T>T)(?<MT>\d{1})(?<TEMPERATURE>\d{3})(?<MDP>\d{1})(?<DEWPOINT>\d{3})";
 
         public override string ToString()
         {
-            return String.Concat(
-                _t,
-                String.Format("{0:0}", _minust),
-                String.Format("{0:000}", _temperature),
-                String.Format("{0:0}", _minusdp),
-                String.Format("{0:000}", _dewpoint)
-            );
+            return $"{_t}{_minust.ToString("D1")}{_temperature.ToString("D3")}{_minusdp.ToString("D1")}{_dewpoint.ToString("D3")}";
         }
     }
 }

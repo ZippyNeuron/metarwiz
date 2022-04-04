@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace ZippyNeuron.Metarwiz.Parser.Remarks
 {
@@ -16,14 +15,13 @@ namespace ZippyNeuron.Metarwiz.Parser.Remarks
         }
 
         public bool IsTrace => _amount == 0;
-
         public decimal Inches => _amount * _units;
 
-        public static string Pattern => @"\ (?<P>P)(?<AMOUNT>\d{4})";
+        public static string Pattern => @"( )(?<P>P)(?<AMOUNT>\d{4})";
 
         public override string ToString()
         {
-            return String.Concat(_p, String.Format("{0:0000}", _amount));
+            return $"{_p}{_amount.ToString("D4")}";
         }
     }
 }

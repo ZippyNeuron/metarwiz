@@ -4,11 +4,14 @@ namespace ZippyNeuron.Metarwiz.Enums
 {
     public enum WeatherType
     {
-        /* weather */
         [Description("Unspecified")]
         Unspecified,
+
+        /* weather */
         [Description("Drizzle")]
         DZ,
+        [Description("Ice Crystals")]
+        IC,
         [Description("Rain")]
         RA,
         [Description("Snow")]
@@ -65,5 +68,7 @@ namespace ZippyNeuron.Metarwiz.Enums
         BC,
         [Description("Partial")]
         PR,
+        [Description("Spray")]
+        PY
     }
 }

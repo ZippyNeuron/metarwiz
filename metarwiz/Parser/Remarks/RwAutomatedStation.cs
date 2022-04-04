@@ -1,29 +1,25 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace ZippyNeuron.Metarwiz.Parser.Remarks
 {
     public class RwAutomatedStation : BaseMetarItem
     {
-        private readonly string _a;
-        private readonly int _rainsnowsensor;
+        private readonly string _ao;
+        private readonly int _precipitationDiscriminator;
 
         public RwAutomatedStation(Match match)
         {
-            _a = match.Groups["A"].Value;
-            _ = int.TryParse(match.Groups["RAINSNOWSENSOR"].Value, out _rainsnowsensor);
+            _ao = match.Groups["AO"].Value;
+            _ = int.TryParse(match.Groups["PRECIPITATIONDISCRIMINATOR"].Value, out _precipitationDiscriminator);
         }
 
-        public bool HasRainSnowSensor => _rainsnowsensor == 2;
+        public bool HasPrecipitationDiscriminator => _precipitationDiscriminator == 2;
 
-        public static string Pattern => @"\ (?<A>AO)(?<RAINSNOWSENSOR>\d{1})";
+        public static string Pattern => @"( )(?<AO>AO)(?<PRECIPITATIONDISCRIMINATOR>\d{1})";
 
         public override string ToString()
         {
-            return String.Concat(
-                _a, 
-                String.Format("{0:0}", _rainsnowsensor)
-            );
+            return $"{_ao}{_precipitationDiscriminator.ToString("D1")}";
         }
     }
 }

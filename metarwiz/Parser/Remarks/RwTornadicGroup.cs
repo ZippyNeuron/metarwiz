@@ -6,7 +6,7 @@ using ZippyNeuron.Metarwiz.Extensions;
 
 namespace ZippyNeuron.Metarwiz.Parser.Groups
 {
-    public class GwTornadic : BaseMetarItem
+    public class RwTornadicGroup : BaseMetarItem
     {
         private readonly TornadicType _activity;
         private readonly string _be;
@@ -17,7 +17,7 @@ namespace ZippyNeuron.Metarwiz.Parser.Groups
         private readonly int _distance;
         private readonly string _movement;
 
-        public GwTornadic(Match match)
+        public RwTornadicGroup(Match match)
         {
             _ = Enum.TryParse<TornadicType>(match.Groups["ACTIVITY"].Value.Replace(" ", "_"), out _activity);
             _be = match.Groups["BE"].Value;
@@ -30,32 +30,27 @@ namespace ZippyNeuron.Metarwiz.Parser.Groups
         }
 
         public TimeSpan? Time => _time;
-
         public int? Minutes => _minutes;
-
         public TornadicType Activity => _activity;
-
         public string ActivityDescription => _activity.GetDescription();
-
         public bool HasEnded => _be == "E";
-
         public int Distance => _distance;
-
         public string Movement => _movement;
 
-        public static string Pattern => GetPattern();
-
-        private static string GetPattern()
+        public static string Pattern
         {
-            string[] names = Enum
-                .GetNames<TornadicType>()
-                .Select(i => i.Replace("_", " "))
-                .ToArray();
+            get
+            {
+                string[] names = Enum
+                    .GetNames<TornadicType>()
+                    .Select(i => i.Replace("_", " "))
+                    .ToArray();
 
-            string clouds = String
-                .Join("|", names);
+                string clouds = String
+                    .Join("|", names);
 
-            return String.Concat(@$"\ (?<ACTIVITY>{clouds})", @"\ (?<BE>B|E)((?<EXACTTIME>\d{4})|(?<MINUTEPASTTHEHOUR>\d{2}))\ (?<SM>\d+)\ (?<MOVEMENT>\S+)");
+                return String.Concat(@$"( )(?<ACTIVITY>{clouds})", @"\ (?<BE>B|E)((?<EXACTTIME>\d{4})|(?<MINUTEPASTTHEHOUR>\d{2}))\ (?<SM>\d+)\ (?<MOVEMENT>\S+)");
+            }
         }
 
         public override string ToString()

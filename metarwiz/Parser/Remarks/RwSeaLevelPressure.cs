@@ -19,14 +19,11 @@ namespace ZippyNeuron.Metarwiz.Parser.Remarks
 
         public decimal InHg => Math.Round(HPa * MetarConvert.hPaToinHg, 2);
 
-        public static string Pattern => @"\ (?<SLP>SLP)(?<PRESSURE>\d{3})";
+        public static string Pattern => @"( )(?<SLP>SLP)(?<PRESSURE>\d{3})";
 
         public override string ToString()
         {
-            return String.Concat(
-                _slp, 
-                String.Format("{0:000}", _pressure)
-            );
+            return $"{_slp}{_pressure.ToString("D3")}";
         }
     }
 }

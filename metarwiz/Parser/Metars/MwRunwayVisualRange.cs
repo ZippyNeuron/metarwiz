@@ -12,6 +12,10 @@ namespace ZippyNeuron.Metarwiz.Parser.Metars
         private readonly string _observation;
         private readonly int _range;
         private readonly string _tendency;
+        private readonly string _v;
+        private readonly int _to;
+        private readonly string _r;
+        private readonly string _divider;
 
         public MwRunwayVisualRange(Match match)
         {
@@ -20,10 +24,13 @@ namespace ZippyNeuron.Metarwiz.Parser.Metars
             _tendency = match.Groups["TENDENCY"].Value;
             _ = int.TryParse(match.Groups["RUNWAY"].Value, out _runway);
             _ = int.TryParse(match.Groups["RANGE"].Value, out _range);
+            _v = match.Groups["V"].Value;
+            _ = int.TryParse(match.Groups["TO"].Value, out _to);
+            _r = match.Groups["R"].Value;
+            _divider = match.Groups["DIVIDER"].Value;
         }
 
         public int Runway => _runway;
-
         public RunwayType Designator => _designator switch
             {
                 "L" => RunwayType.L,
@@ -31,20 +38,16 @@ namespace ZippyNeuron.Metarwiz.Parser.Metars
                 "R" => RunwayType.R,
                 _ => RunwayType.U
             };
-
         public string DesignatorDescription => Designator.GetDescription();
-
         public int Range => _range;
-
+        public int To => _to;
         public ObservationType Observation => _observation switch
             {
                 "P" => ObservationType.P,
                 "M" => ObservationType.M,
                 _ => ObservationType.U
             };
-
         public string ObservationDescription => Observation.GetDescription();
-
         public TendencyIndicator Tendency => _tendency switch
             {
                 "U" => TendencyIndicator.U,
@@ -53,20 +56,20 @@ namespace ZippyNeuron.Metarwiz.Parser.Metars
                 "FT" => TendencyIndicator.FT,
                 _ => TendencyIndicator.Unspecified
             };
-
         public string TendencyDescription => Tendency.GetDescription();
 
-        public static string Pattern => @"\ R(?<RUNWAY>\d+)?(?<DESIGNATOR>[A-Z]{1})?\/?(?<OBSERVATION>P|M)?(?<RANGE>\d+)(?<TENDENCY>U|D|N|FT)";
-
+        public static string Pattern => @"( )(?<R>R)(?<RUNWAY>\d{2})(?<DESIGNATOR>L|R|C)?(?<DIVIDER>\/)((?<OBSERVATION>P|M)?(?<RANGE>\d{4}(?=V|U|D|N|\b))((?<V>V)(?<TO>\d{4}))?)(?<TENDENCY>U|D|N)?";
+        
         public override string ToString()
         {
             return String.Concat(
-                @"R",
-                String.Format("{0:00}", Runway),
+                _r,
+                Runway.ToString("D2"),
                 (Designator != RunwayType.U) ? Enum.GetName<RunwayType>(Designator) : String.Empty,
-                @"/",
+                _divider,
                 (Observation != ObservationType.U) ? Enum.GetName<ObservationType>(Observation) : String.Empty,
-                String.Format("{0:0000}", Range),
+                Range.ToString("D4"),
+                (!String.IsNullOrEmpty(_v) ? $"{_v}{_to.ToString("D4")}" : String.Empty),
                 (Tendency != TendencyIndicator.Unspecified) ? Enum.GetName<TendencyIndicator>(Tendency) : String.Empty
             );
         }

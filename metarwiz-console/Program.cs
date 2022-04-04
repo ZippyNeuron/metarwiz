@@ -11,7 +11,7 @@ namespace metarwiz_console
     {
         static void Main(string[] args)
         {
-            string metar = (args.Length > 0) ? String.Join(" ", args) : "METAR KATL 281152Z 11004KT 1SM R09R/P6000FT BR BKN004 24/23 A3020 RMK AO2 SFC VIS 4 SLP215 VIS N-E 1 1/2 CIG 003V005 TWRINC PK WND 27212/1735 FUNNEL CLOUD B13 6 NE T02390228 10250 20239 53012";
+            string metar = (args.Length > 0) ? String.Join(" ", args) : "METAR EGLC 221630Z AUTO 24008G36KT 350V070 1/2SM R32L/M0400V1200D +VCFG -RA BKN025 SCT030CB M01/M10 Q1022 REFZRA WS R18C W15/S2 R24L/123456";
 
             IMetarwiz mw = new Metarwiz(metar);
 
@@ -23,13 +23,9 @@ namespace metarwiz_console
             if (o != null)
                 Out("Report", $"Issued at {new TimeSpan(o.Hour, o.Minute, 0)} on Day {o.Day}");
 
-            MwSurfaceWind s = mw.Get<MwSurfaceWind>();
+            MwSurfaceWindGroup s = mw.Get<MwSurfaceWindGroup>();
             if (s != null)
                 Out("Wind", $"{s.Speed} in {s.UnitsDescription} from {s.Direction} degrees and is {((s.IsVariable) ? "" : "not ")}variable{((s.Gusting > 0) ? $", gusting at {s.Gusting}" : "")}");
-
-            MwStatuteMiles m = mw.Get<MwStatuteMiles>();
-            if (m != null)
-                Out("Statute Miles (Visibility)", $"{m.Distance}");
 
             IEnumerable<MwCloud> c = mw.GetMany<MwCloud>();
             if (c != null)
@@ -49,7 +45,7 @@ namespace metarwiz_console
 
             RwAutomatedStation a = mw.Get<RwAutomatedStation>();
             if (a != null)
-                Out("Automation Station", $"{((a.HasRainSnowSensor) ? "Has a rain/snow sensor" : "Does not have a rain/snow sensor")}");
+                Out("Automation Station", $"{((a.HasPrecipitationDiscriminator) ? "Has a rain/snow sensor" : "Does not have a rain/snow sensor")}");
 
             RwSeaLevelPressure slp = mw.Get<RwSeaLevelPressure>();
             if (slp != null)
@@ -74,21 +70,26 @@ namespace metarwiz_console
             if (pt != null)
                 Out("Pressure Tendency", $"{pt.TypeDescription} - hPa {pt.HPa} inHg {pt.InHg}");
 
-            GwVariableCeiling v = mw.Get<GwVariableCeiling>();
+            RwVariableCeilingGroup v = mw.Get<RwVariableCeilingGroup>();
             if (v != null)
                 Out("Variable Ceiling", $"From {v.From} To {v.To}");
 
-            GwSurfaceTowerVisibility sv = mw.Get<GwSurfaceTowerVisibility>();
+            RwSurfaceTowerVisibilityGroup sv = mw.Get<RwSurfaceTowerVisibilityGroup>();
             if (sv != null)
                 Out("Surface Visibility", $"{sv.Distance}");
 
-            GwPeakWind pw = mw.Get<GwPeakWind>();
+            RwPeakWindGroup pw = mw.Get<RwPeakWindGroup>();
             if (pw != null)
                 Out("Peak Wind", $"Direction {pw.Direction} degrees. Speed {pw.Speed} knots at {pw.Time}");
 
-            GwTornadic tor = mw.Get<GwTornadic>();
+            RwTornadicGroup tor = mw.Get<RwTornadicGroup>();
             if (tor != null)
                 Out("Tornadic Observation", $"{tor.ActivityDescription} at {tor.Distance} statute miles, heading {tor.Movement}");
+
+            IEnumerable<MwRecentWeather> rw = mw.GetMany<MwRecentWeather>();
+            if (c != null)
+                foreach (MwRecentWeather w in rw)
+                    Out($"Recent Weather", $"{w.Kind} at {w.KindDescription}");
         }
 
         private static void Out(string label, string value)

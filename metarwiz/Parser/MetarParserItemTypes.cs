@@ -10,51 +10,52 @@ namespace ZippyNeuron.Metarwiz.Parser
     {
         public static IEnumerable<Type> MetarGroup = new Type[]
         {
-            /* first */
+            /* first - fixed items */
             typeof(MwLocation),
             typeof(MwMetar),
 
-            /* second */
+            /* groups - multiword items */
+            typeof(MwSurfaceWindGroup),
+            typeof(MwVisibilityGroup),
+            typeof(MwWindShearGroup),
+
+            /* standard - single word items */
             typeof(MwAutoOrNil),
-            typeof(MwCavok),
             typeof(MwCloud),
             typeof(MwNoSig),
             typeof(MwPressure),
             typeof(MwRecentWeather),
-            typeof(MwRunwayStateGroup),
             typeof(MwRunwayVisualRange),
-            typeof(MwStatuteMiles),
-            typeof(MwSurfaceWind),
             typeof(MwTemperature),
-            typeof(MwTempo),
             typeof(MwTimeOfObservation),
-            typeof(MwVisibility),
             typeof(MwWeather),
-            typeof(MwWindVariation),
+            typeof(MwStateOfSeaSurface),
+            typeof(MwStateOfRunway)
         };
 
         public static IEnumerable<Type> RemarksGroup = new Type[]
         {
-            /* groups */
-            typeof(GwSurfaceTowerVisibility),
-            typeof(GwTornadic),
-            typeof(GwVariableCeiling),
-            typeof(GwPeakWind),
-            typeof(GwWindShift),
+            /* first - fixed items */
+            typeof(RwRemarks),
 
+            /* groups - multiword items */
+            typeof(RwSurfaceTowerVisibilityGroup),
+            typeof(RwTornadicGroup),
+            typeof(RwVariableCeilingGroup),
+            typeof(RwPeakWindGroup),
+            typeof(RwWindShiftGroup),
+
+            /* standard - single word items */
             typeof(RwAutomatedStation),
             typeof(RwHourlyPrecipitation),
             typeof(RwHourlyTemperature),
             typeof(RwNeedsMaintenance),
             typeof(RwPressureTendency),
-            typeof(RwRainBegan),
-            typeof(RwRainEnded),
             typeof(RwSeaLevelPressure),
             typeof(RwSixHourMaxTemperature),
             typeof(RwSixHourMinTemperature),
             typeof(RwSixHourPrecipitation),
             typeof(RwTwentyFourHourPrecipitation),
-            typeof(RwRemarks),
         };
     }
 }

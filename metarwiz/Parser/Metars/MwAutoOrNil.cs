@@ -1,28 +1,24 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace ZippyNeuron.Metarwiz.Parser.Metars
 {
     public class MwAutoOrNil : BaseMetarItem
     {
-        private readonly string _auto;
-        private readonly string _nil;
+        private readonly string _type;
 
         public MwAutoOrNil(Match match)
         {
-            _auto = match.Groups["AUTO"].Value;
-            _nil = match.Groups["NIL"].Value;
+            _type = match.Groups["TYPE"].Value;
         }
 
-        public bool IsAutomated => _auto == "AUTO";
+        public bool IsAuto => _type == "AUTO";
+        public bool IsNil => _type == "NIL";
 
-        public bool IsNil => _nil == "NIL";
-
-        public static string Pattern => @"\ (?<AUTO>AUTO)|(?<NIL>NIL)";
+        public static string Pattern => @"( )(?<TYPE>AUTO|NIL)";
 
         public override string ToString()
         {
-            return (String.IsNullOrEmpty(_auto)) ? _nil : _auto;
+            return _type;
         }
     }
 }

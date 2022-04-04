@@ -13,7 +13,7 @@ namespace ZippyNeuron.Metarwiz.Parser.Metars
 
         public string ICAO => _icao;
 
-        public static string Pattern => @"^METAR\ (?<ICAO>[A-Z]{4})";
+        public static string Pattern => @"^METAR( )(?<ICAO>[A-Z]{4})";
 
         public override string ToString()
         {

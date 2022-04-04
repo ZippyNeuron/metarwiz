@@ -1,17 +1,16 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace ZippyNeuron.Metarwiz.Parser.Remarks
 {
     public class RwSixHourPrecipitation : BaseMetarItem
     {
-        private readonly string _six;
+        private readonly string _prefix;
         private readonly decimal _units = 0.01m;
         private readonly int _amount;
 
         public RwSixHourPrecipitation(Match match)
         {
-            _six = match.Groups["6"].Value;
+            _prefix = match.Groups["6"].Value;
             _ = int.TryParse(match.Groups["AMOUNT"].Value, out _amount);
         }
 
@@ -23,10 +22,7 @@ namespace ZippyNeuron.Metarwiz.Parser.Remarks
 
         public override string ToString()
         {
-            return String.Concat(
-                _six, 
-                String.Format("{0:0000}", _amount)
-            );
+            return $"{_prefix}{_amount.ToString("D4")}";
         }
     }
 }

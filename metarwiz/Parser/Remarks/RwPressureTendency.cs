@@ -8,13 +8,13 @@ namespace ZippyNeuron.Metarwiz.Parser.Remarks
 {
     public class RwPressureTendency : BaseMetarItem
     {
-        private readonly string _five;
+        private readonly string _prefix;
         private readonly PressureTendencyType _type;
         private readonly int _pressure;
 
         public RwPressureTendency(Match match)
         {
-            _five = match.Groups["5"].Value;
+            _prefix = match.Groups["5"].Value;
             _ = Enum.TryParse(match.Groups["A"].Value, out _type);
             _ = int.TryParse(match.Groups["PRESSURE"].Value, out _pressure);
         }
@@ -31,11 +31,7 @@ namespace ZippyNeuron.Metarwiz.Parser.Remarks
 
         public override string ToString()
         {
-            return String.Concat(
-                _five,
-                String.Format("{0:0}", (int)_type),
-                String.Format("{0:000}", _pressure)
-            );
+            return $"{_prefix}{String.Format("{0:0}", (int)_type)}{_pressure.ToString("D3")}";
         }
     }
 }

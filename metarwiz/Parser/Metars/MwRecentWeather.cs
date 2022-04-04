@@ -15,18 +15,18 @@ namespace ZippyNeuron.Metarwiz.Parser.Metars
         }
 
         public RecentWeatherType Kind => (!String.IsNullOrEmpty(_recent)) ? Enum.Parse<RecentWeatherType>(_recent) : RecentWeatherType.Unspecified;
-
         public string KindDescription => Kind.GetDescription();
 
-        private static string GetPattern()
+        public static string Pattern
         {
-            string recents = String
-                .Join("|", Enum.GetNames<RecentWeatherType>());
+            get
+            {
+                string recents = String
+                    .Join("|", Enum.GetNames<RecentWeatherType>());
 
-            return $@"\ (?<RECENTWEATHER>{recents})";
+                return @$"( )(?<RECENTWEATHER>{recents})";
+            }
         }
-
-        public static string Pattern => GetPattern();
 
         public override string ToString()
         {
