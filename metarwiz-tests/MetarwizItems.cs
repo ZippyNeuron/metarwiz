@@ -119,7 +119,7 @@ namespace metarwiz.tests
         [DataRow(@"METAR EGLC 24008GP99MPS", false, 240, 8, false, 99, true, SpeedUnit.MPS, 0, 0)]
         [DataRow(@"METAR EGLC 180P99GP99KT 000V100", false, 180, 99, true, 99, true, SpeedUnit.KT, 0, 100)]
         [DataRow(@"METAR EGLC 120P144G18KT", false, 120, 144, true, 18, false, SpeedUnit.KT, 0, 0)]
-        public void GwSurfaceWind_IsValid(string metar, bool variable, int direction, int speed, bool sexceeds, int gusting, bool gexceeds, SpeedUnit units, int from, int to)
+        public void MwSurfaceWindGroup_IsValid(string metar, bool variable, int direction, int speed, bool sexceeds, int gusting, bool gexceeds, SpeedUnit units, int from, int to)
         {
             /* arrange */
             Metarwiz m = new(metar);
@@ -148,7 +148,7 @@ namespace metarwiz.tests
         [DataRow(@"METAR EGLC 02005MPS CAVOK", true, 0, 0, "", false, false)]
         [DataRow(@"METAR EGLC 02005MPS 10SM", false, 16093, 0, "", true, false)]
         [DataRow(@"METAR EGLC 02005MPS 1/2SM", false, 805, 0, "", false, false)]
-        public void GwVisibility_IsValid(string metar, bool isCAVOK, int minVisibility, int dirVisibility, string direction, bool isMinimumVisibilityMoreThan10K, bool hasDirectionVisibility)
+        public void MwVisibilityGroup_IsValid(string metar, bool isCAVOK, int minVisibility, int dirVisibility, string direction, bool isMinimumVisibilityMoreThan10K, bool hasDirectionVisibility)
         {
             /* arrange */
             Metarwiz m = new(metar);
@@ -504,6 +504,174 @@ namespace metarwiz.tests
             Assert.AreEqual(3.60m, o.DewPoint);
             Assert.AreEqual(value, o.Value);
             Assert.AreEqual(value, o.ToString());
+        }
+
+        [TestMethod]
+        [DataRow("METAR EGLC", "")]
+        public void RwNeedsMaintenance_IsValid(string metar, string value)
+        {
+            /* arrange */
+            Metarwiz m = new(metar);
+
+            /* act */
+            RwNeedsMaintenance o = m.Get<RwNeedsMaintenance>();
+
+            /* assert */
+            Assert.IsNotNull(o);
+        }
+
+        [TestMethod]
+        [DataRow("METAR EGLC", "")]
+        public void RwPeakWindGroup_IsValid(string metar, string value)
+        {
+            /* arrange */
+            Metarwiz m = new(metar);
+
+            /* act */
+            RwPeakWindGroup o = m.Get<RwPeakWindGroup>();
+
+            /* assert */
+            Assert.IsNotNull(o);
+        }
+
+        [TestMethod]
+        [DataRow("METAR EGLC", "")]
+        public void RwPressureTendency_IsValid(string metar, string value)
+        {
+            /* arrange */
+            Metarwiz m = new(metar);
+
+            /* act */
+            RwPressureTendency o = m.Get<RwPressureTendency>();
+
+            /* assert */
+            Assert.IsNotNull(o);
+        }
+
+        [TestMethod]
+        [DataRow("METAR EGLC", "")]
+        public void RwSeaLevelPressure_IsValid(string metar, string value)
+        {
+            /* arrange */
+            Metarwiz m = new(metar);
+
+            /* act */
+            RwSeaLevelPressure o = m.Get<RwSeaLevelPressure>();
+
+            /* assert */
+            Assert.IsNotNull(o);
+        }
+
+        [TestMethod]
+        [DataRow("METAR EGLC", "")]
+        public void RwSixHourMaxTemperature_IsValid(string metar, string value)
+        {
+            /* arrange */
+            Metarwiz m = new(metar);
+
+            /* act */
+            RwSixHourMaxTemperature o = m.Get<RwSixHourMaxTemperature>();
+
+            /* assert */
+            Assert.IsNotNull(o);
+        }
+
+        [TestMethod]
+        [DataRow("METAR EGLC", "")]
+        public void RwSixHourMinTemperature_IsValid(string metar, string value)
+        {
+            /* arrange */
+            Metarwiz m = new(metar);
+
+            /* act */
+            RwSixHourMinTemperature o = m.Get<RwSixHourMinTemperature>();
+
+            /* assert */
+            Assert.IsNotNull(o);
+        }
+
+        [TestMethod]
+        [DataRow("METAR EGLC", "")]
+        public void RwSixHourPrecipitation_IsValid(string metar, string value)
+        {
+            /* arrange */
+            Metarwiz m = new(metar);
+
+            /* act */
+            RwSixHourPrecipitation o = m.Get<RwSixHourPrecipitation>();
+
+            /* assert */
+            Assert.IsNotNull(o);
+        }
+
+        [TestMethod]
+        [DataRow("METAR EGLC", "")]
+        public void RwSurfaceTowerVisibilityGroup_IsValid(string metar, string value)
+        {
+            /* arrange */
+            Metarwiz m = new(metar);
+
+            /* act */
+            RwSurfaceTowerVisibilityGroup o = m.Get<RwSurfaceTowerVisibilityGroup>();
+
+            /* assert */
+            Assert.IsNotNull(o);
+        }
+
+        [TestMethod]
+        [DataRow("METAR EGLC", "")]
+        public void RwTornadicGroup_IsValid(string metar, string value)
+        {
+            /* arrange */
+            Metarwiz m = new(metar);
+
+            /* act */
+            RwTornadicGroup o = m.Get<RwTornadicGroup>();
+
+            /* assert */
+            Assert.IsNotNull(o);
+        }
+
+        [TestMethod]
+        [DataRow("METAR EGLC", "")]
+        public void RwTwentyFourHourPrecipitation_IsValid(string metar, string value)
+        {
+            /* arrange */
+            Metarwiz m = new(metar);
+
+            /* act */
+            RwTwentyFourHourPrecipitation o = m.Get<RwTwentyFourHourPrecipitation>();
+
+            /* assert */
+            Assert.IsNotNull(o);
+        }
+
+        [TestMethod]
+        [DataRow("METAR EGLC", "")]
+        public void RwVariableCeilingGroup_IsValid(string metar, string value)
+        {
+            /* arrange */
+            Metarwiz m = new(metar);
+
+            /* act */
+            RwVariableCeilingGroup o = m.Get<RwVariableCeilingGroup>();
+
+            /* assert */
+            Assert.IsNotNull(o);
+        }
+
+        [TestMethod]
+        [DataRow("METAR EGLC", "")]
+        public void RwWindShiftGroup_IsValid(string metar, string value)
+        {
+            /* arrange */
+            Metarwiz m = new(metar);
+
+            /* act */
+            RwWindShiftGroup o = m.Get<RwWindShiftGroup>();
+
+            /* assert */
+            Assert.IsNotNull(o);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
-namespace ZippyNeuron.Metarwiz.Parser.Groups
+namespace ZippyNeuron.Metarwiz.Parser.Remarks
 {
     public class RwSurfaceTowerVisibilityGroup : BaseMetarItem
     {

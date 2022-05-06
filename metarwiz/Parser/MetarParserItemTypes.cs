@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using ZippyNeuron.Metarwiz.Parser.Groups;
 using ZippyNeuron.Metarwiz.Parser.Metars;
 using ZippyNeuron.Metarwiz.Parser.Remarks;
 

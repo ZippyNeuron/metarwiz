@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using ZippyNeuron.Metarwiz.Enums;
 using ZippyNeuron.Metarwiz.Extensions;
 
-namespace ZippyNeuron.Metarwiz.Parser.Groups
+namespace ZippyNeuron.Metarwiz.Parser.Remarks
 {
     public class RwTornadicGroup : BaseMetarItem
     {
