@@ -68,6 +68,9 @@ namespace ZippyNeuron.Metarwiz.Parser
 
                             metarCopy = metarCopy.Remove(metarCopy.IndexOf(metarItem.ToString()), mpi.Item.ToString().Length);
                         }
+                        catch (MetarException mex) {
+                            Debug.WriteLine(mex.Message);
+                        }
                         catch (Exception ex)
                         {
                             Debug.WriteLine(ex.Message);

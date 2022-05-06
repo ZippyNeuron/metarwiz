@@ -9,7 +9,7 @@ using ZippyNeuron.Metarwiz.Enums;
 namespace metarwiz.tests
 {
     [TestClass]
-    public class TMetarwiz
+    public class MetarwizCore
     {
         public const string _metar = @"METAR EGLC 012050Z AUTO 06007G22KT 290V100 9999 BKN018 OVC033 16/12 Q1030 RMK SLP021=";
 

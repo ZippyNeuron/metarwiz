@@ -5,29 +5,34 @@ using ZippyNeuron.Metarwiz.Parser.Metars;
 using ZippyNeuron.Metarwiz.Enums;
 using System.Collections.Generic;
 using System.Text.Json;
+using ZippyNeuron.Metarwiz.Parser.Remarks;
 
 namespace metarwiz.tests
 {
     [TestClass]
-    public class MwTests
+    public class MetarwizItems
     {
         [TestMethod]
-        [DataRow(@"METAR")]
-        public void MwMetar_Valid(string metar)
+        [DataRow(@"METAR", "METAR")]
+        public void MwMetar_Valid(string metar, string value)
         {
             /* arrange */
-            Metarwiz m;
+            Metarwiz m = new(metar);
 
             /* act */
-            m = new(metar);
+            MwMetar o = m.Get<MwMetar>();
 
             /* assert */
-            Assert.IsNotNull(m);
+            Assert.IsNotNull(o);
+            Assert.AreEqual(o.Value, value);
         }
 
         [TestMethod]
         [DataRow(@"")]
+        [DataRow(@" ")]
+        [DataRow(@" METAR")]
         [DataRow(@"METER")]
+        [DataRow(@"META")]
         public void MwMetar_Invalid(string metar)
         {
             /* arrange */
@@ -39,7 +44,7 @@ namespace metarwiz.tests
             };
 
             /* assert */
-            Assert.ThrowsException<Exception>(a);
+            Assert.ThrowsException<MetarException>(a);
         }
 
         [TestMethod]
@@ -59,6 +64,8 @@ namespace metarwiz.tests
 
         [TestMethod]
         [DataRow(@"METAR EGLC 031822Z", 3, 18, 22)]
+        [DataRow(@"METAR EGLC 312359Z", 31, 23, 59)]
+        [DataRow(@"METAR EGLC 010000Z", 1, 0, 0)]
         public void MwTimeOfObservation_Valid(string metar, int day, int hour, int minute)
         {
             /* arrange */
@@ -77,7 +84,7 @@ namespace metarwiz.tests
         [TestMethod]
         [DataRow(@"METAR EGLC AUTO", true, false)]
         [DataRow(@"METAR EGLC NIL", false, true)]
-        public void MwAutoOrNil_IsAuto(string metar, bool isAuto, bool isNil)
+        public void MwAutoOrNil_Valid(string metar, bool isAuto, bool isNil)
         {
             /* arrange */
             Metarwiz m = new(metar);
@@ -89,20 +96,6 @@ namespace metarwiz.tests
             Assert.IsNotNull(o);
             Assert.AreEqual(o.IsAuto, isAuto);
             Assert.AreEqual(o.IsNil, isNil);
-        }
-
-        [TestMethod]
-        [DataRow(@"METAR EGLC")]
-        public void MwAutoOrNil_IsNotPresent(string metar)
-        {
-            /* arrange */
-            Metarwiz m = new(metar);
-
-            /* act */
-            MwAutoOrNil o = m.Get<MwAutoOrNil>();
-
-            /* assert */
-            Assert.IsNull(o);
         }
 
         [TestMethod]
@@ -306,14 +299,22 @@ namespace metarwiz.tests
             Assert.AreEqual(o.DewPoint, dewpoint);
         }
 
+        [Serializable]
+        public record MwPressureData
+        {
+            public decimal HPa { get; set; }
+            public decimal InHg { get; set; }
+        }
+
         [TestMethod]
-        [DataRow("METAR EGLC Q1023", 1023, 3021)]
-        [DataRow("METAR EGLC A2992", 1013, 2992)]
-        [DataRow("METAR EGLC Q1010", 1010, 2983)]
-        [DataRow("METAR EGLC Q1001", 1001, 2956)]
-        public void MwPressure_IsValid(string metar, int hpa, int inhg)
+        [DataRow("METAR EGLC Q1023", "{\"HPa\": 1023, \"InHg\": 30.21}")]
+        [DataRow("METAR EGLC A2992", "{\"HPa\": 1013, \"InHg\": 29.92}")]
+        [DataRow("METAR EGLC Q1010", "{\"HPa\": 1010, \"InHg\": 29.83}")]
+        [DataRow("METAR EGLC Q1001", "{\"HPa\": 1001, \"InHg\": 29.56}")]
+        public void MwPressure_IsValid(string metar, string jsonData)
         {
             /* arrange */
+            MwPressureData data = JsonSerializer.Deserialize<MwPressureData>(jsonData);
             Metarwiz m = new(metar);
 
             /* act */
@@ -321,8 +322,8 @@ namespace metarwiz.tests
 
             /* assert */
             Assert.IsNotNull(o);
-            Assert.AreEqual(o.HPa, (decimal)hpa);
-            Assert.AreEqual(o.InHg, (decimal)inhg / 100);
+            Assert.AreEqual(data.HPa, o.HPa);
+            Assert.AreEqual(data.InHg, o.InHg);
         }
 
         [Serializable]
@@ -408,15 +409,16 @@ namespace metarwiz.tests
             Metarwiz m = new(metar);
 
             /* act */
-            MwStateOfRunway state = m.Get<MwStateOfRunway>();
+            MwStateOfRunway o = m.Get<MwStateOfRunway>();
 
             /* assert */
-            Assert.IsNotNull(state);
-            Assert.AreEqual(state.Deposit, deposit);
-            Assert.AreEqual(state.Extent, extent);
-            Assert.AreEqual(state.Depth, depth);
-            Assert.AreEqual(state.Friction, friction);
-
+            Assert.IsNotNull(o);
+            Assert.AreEqual(o.Deposit, deposit);
+            Assert.AreEqual(o.Extent, extent);
+            Assert.AreEqual(o.Depth, depth);
+            Assert.AreEqual(o.Friction, friction);
+            Assert.AreEqual("R24L/123456", o.Value);
+            Assert.AreEqual("R24L/123456", o.ToString());
         }
 
         [TestMethod]
@@ -427,11 +429,81 @@ namespace metarwiz.tests
             Metarwiz m = new(metar);
 
             /* act */
-            MwNoSig nosig = m.Get<MwNoSig>();
+            MwNoSig o = m.Get<MwNoSig>();
 
             /* assert */
-            Assert.IsNotNull(nosig);
+            Assert.IsNotNull(o);
+            Assert.AreEqual("NOSIG", o.Value);
+            Assert.AreEqual("NOSIG", o.ToString());
+        }
 
+        [TestMethod]
+        [DataRow("METAR EGLC RMK")]
+        public void RwRemarks_IsValid(string metar)
+        {
+            /* arrange */
+            Metarwiz m = new(metar);
+
+            /* act */
+            RwRemarks o = m.Get<RwRemarks>();
+
+            /* assert */
+            Assert.IsNotNull(o);
+            Assert.AreEqual("RMK", o.Value);
+            Assert.AreEqual("RMK", o.ToString());
+        }
+
+        [TestMethod]
+        [DataRow("METAR EGLC RMK AO2")]
+        public void RwAutomatedStation_IsValid(string metar)
+        {
+            /* arrange */
+            Metarwiz m = new(metar);
+
+            /* act */
+            RwAutomatedStation o = m.Get<RwAutomatedStation>();
+
+            /* assert */
+            Assert.IsNotNull(o);
+            Assert.AreEqual(true, o.HasPrecipitationDiscriminator);
+            Assert.AreEqual("AO2", o.Value);
+            Assert.AreEqual("AO2", o.ToString());
+        }
+
+        [TestMethod]
+        [DataRow("METAR EGLC RMK P1234", "P1234")]
+        public void RwHourlyPrecipitation_IsValid(string metar, string value)
+        {
+            /* arrange */
+            Metarwiz m = new(metar);
+
+            /* act */
+            RwHourlyPrecipitation o = m.Get<RwHourlyPrecipitation>();
+
+            /* assert */
+            Assert.IsNotNull(o);
+            Assert.AreEqual(false, o.IsTrace);
+            Assert.AreEqual(12.34m, o.Inches);
+            Assert.AreEqual(value, o.Value);
+            Assert.AreEqual(value, o.ToString());
+        }
+
+        [TestMethod]
+        [DataRow("METAR EGLC RMK T00640036", "T00640036")]
+        public void RwHourlyTemperature_IsValid(string metar, string value)
+        {
+            /* arrange */
+            Metarwiz m = new(metar);
+
+            /* act */
+            RwHourlyTemperature o = m.Get<RwHourlyTemperature>();
+
+            /* assert */
+            Assert.IsNotNull(o);
+            Assert.AreEqual(6.40m, o.Celsius);
+            Assert.AreEqual(3.60m, o.DewPoint);
+            Assert.AreEqual(value, o.Value);
+            Assert.AreEqual(value, o.ToString());
         }
     }
 }

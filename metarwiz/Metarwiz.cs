@@ -32,10 +32,10 @@ namespace ZippyNeuron.Metarwiz
         public void Parse(string metar, string tag)
         {
             if (string.IsNullOrEmpty(metar))
-                throw new Exception("The report cannot be empty.");
+                throw new MetarException("The report cannot be empty.");
 
             if (metar.Length < 5 || !metar.StartsWith("METAR"))
-                throw new Exception("The report should start with the METAR header.");
+                throw new MetarException("The report should start with the METAR header.");
 
             _metarParser = new MetarParser(metar, tag);
 

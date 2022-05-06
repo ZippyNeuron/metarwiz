@@ -46,7 +46,7 @@ namespace ZippyNeuron.Metarwiz.Parser.Metars
                 string cloudTypes = String
                     .Join("|", Enum.GetNames<CloudType>());
 
-                return @$"( )(?<CLOUD>///|{clouds})(?<ALTITUDE>\d+|//|///)?(?<CLOUDTYPE>{cloudTypes}|///)?";
+                return @$"( )(?<CLOUD>///|{clouds})(?<ALTITUDE>\d+|///|//)?(?<CLOUDTYPE>{cloudTypes}|///)?";
             }
         }
 

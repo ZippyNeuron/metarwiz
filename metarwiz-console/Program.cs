@@ -11,7 +11,7 @@ namespace metarwiz_console
     {
         static void Main(string[] args)
         {
-            string metar = (args.Length > 0) ? String.Join(" ", args) : "METAR EGLC 221630Z AUTO 24008G36KT 350V070 1/2SM R32L/M0400V1200D +VCFG -RA BKN025 SCT030CB M01/M10 Q1022 REFZRA WS R18C W15/S2 R24L/123456";
+            string metar = (args.Length > 0) ? String.Join(" ", args) : "METAR EGLC 060920Z AUTO 24016KT 9999 -RA SCT015/// BKN023/// BKN032/// //////TCU 11/09 A2992 RERA";
 
             IMetarwiz mw = new Metarwiz(metar);
 
